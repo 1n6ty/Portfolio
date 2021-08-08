@@ -1,0 +1,16 @@
+.carousel-item{
+	width: 100%;
+	height: 100vh;
+	position: relative;
+}
+.carousel-item .label{
+	position: absolute;
+	top: 60%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	width: auto;
+	height: 258px;
+	background-color: white;
+}
+.carousel-item .label h1{
+}
