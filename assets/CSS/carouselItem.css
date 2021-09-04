@@ -1,170 +1,96 @@
-.carousel-item{
-	width: 100%;
-	height: 100vh;
+@font-face{
+	font-family: proximaBold;
+	src: url("../Fonts/proximaNova/ProximaNova-Bold.otf") format("opentype");
+	font-weight: bold;
+}
+
+@font-face{
+	font-family: freight-medium;
+	src: url("../Fonts/freight/Freight_Disp_Light.otf") format("opentype");
+}
+
+.slick-slide{
+	height: 118vh;
 	position: relative;
-	transition: transform 1.2s ease, opacity .5s ease-out
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
 }
-.carousel-item svg { 
-  	width: auto;
-  	position: absolute;
-  	top: 53%;
-	left: 50%;
-	transform: translateX(-50%);
-  	height: 24%;
+
+.slick-slide.slide1{
+	width: 58vh;
 }
-.carousel-item svg text {
-	font-family: sans-serif;
-	font-weight: 700;
-	text-transform: uppercase;
+
+.slick-slide.slide2{
+	width: 92vh;
+}
+
+.slick-slide.slide3{
+	width: 58vh;
+}
+
+.slick-slide.slide4{
+	width: 80vh;
+}
+
+.slick-slide.slick-center svg{
+	transform: scale(115%);
+	height: 24vh;
+	opacity: 1;
+}
+
+.slick-slide svg{
+	font-family: proximaBold;
+	letter-spacing: 2px;
+	height: 20vh;
+	transform: scale(95%);
+	width: 100%;
+	-webkit-transition: all 1s ease-out, opacity .3s;
+	opacity: 0.6;
 	font-size: 35pt;
 }
-.carousel-item svg rect {
-  	fill: white;
+
+.slick-slide svg rect{
+	fill: white;
 }
-.carousel-item a img{
-	object-fit: cover;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translateY(-50%) translateX(-50%);
-	width: 640px;
-	height: 67vh;
+
+.slick-slide .wrap{
+	width: 90%;
+	cursor: pointer;
 }
-.carousel-item a h2{
+
+.slick-slide h2{
+	width: 100%;
 	position: absolute;
 	left: 50%;
-	top: calc(56% + 24vh);
+	text-align: center;
+	padding-top: 45px;
 	transform: translateX(-50%);
-	font-family: 'Indie Flower', sans;
-	font-weight: 600;
-	transition: .5s;
+	opacity: 0;
+	transition: .5s cubic-bezier(0.32, 0, 0.67, 0);
+	font-size: 30pt;
+	font-family: freight-medium, serif;
+	font-weight: 100;
+	letter-spacing: 0.06em;
 }
 
-@keyframes curve1{
-	from{
-		d: path('M 0.554 0.007 C 0.043 0.201 0.121 0.805 0.46 0.975 C 0.493 0.992 0.834 1.055 0.82 0.765 C 0.783 0.541 0.657 0.478 0.735 0.22 S 0.572 0 0.554 0.007');
-	}
-
-	25%{
-		d: path('M 0.554 0.007 C 0.158 0.069 0.072 0.845 0.46 0.975 C 0.54 0.999 0.806 1.058 0.809 0.795 C 0.792 0.525 0.733 0.566 0.739 0.367 S 0.78 0.002 0.554 0.007');
-	}
-
-	40%{
-		d: path('M 0.554 0.007 C 0.178 0.008 0.048 0.776 0.42 0.958 C 0.52 1.006 0.806 1.058 0.807 0.819 C 0.804 0.512 0.73 0.588 0.726 0.368 S 0.726 0.005 0.554 0.007');
-	}
-
-	65%{
-		d: path('M 0.554 0.007 C 0.158 0.069 0.072 0.845 0.46 0.975 C 0.54 0.999 0.806 1.058 0.809 0.795 C 0.792 0.525 0.733 0.566 0.739 0.367 S 0.78 0.002 0.554 0.007');
-	}
-
-	to{
-		d: path('M 0.554 0.007 C 0.043 0.201 0.121 0.805 0.46 0.975 C 0.493 0.992 0.834 1.055 0.82 0.765 C 0.783 0.541 0.657 0.478 0.735 0.22 S 0.572 0 0.554 0.007');
-	}
+.slick-slide.slick-center h2{
+	opacity: 1;
 }
 
 #curve1 path{
-	animation-duration: 9s;
-  animation-name: curve1;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+	-webkit-transition: 3s;
 }
 
-@keyframes curve2{
-	from{
-		d: path('M 0.045 0.248 C -0.057 0.561 0.319 0.603 0.342 0.676 C 0.479 1.084 0.673 1.057 0.777 0.817 C 0.879 0.556 0.963 0.518 0.966 0.311 S 0.306 -0.206 0.045 0.248');
-	}
-
-	25%{
-		d: path('M 0.045 0.248 C -0.071 0.649 0.318 0.567 0.388 0.729 C 0.546 1.083 0.716 1.064 0.803 0.799 C 0.879 0.556 0.934 0.607 0.971 0.352 S 0.206 -0.196 0.045 0.248');
-	}
-
-	50%{
-		d: path('M 0.045 0.248 C -0.022 0.622 0.321 0.487 0.355 0.777 C 0.406 1.049 0.62 1.063 0.732 0.792 C 0.855 0.526 1.004 0.505 0.938 0.283 S 0.206 -0.196 0.045 0.248');
-	}
-
-	78%{
-		d: path('M 0.045 0.248 C -0.071 0.649 0.318 0.567 0.388 0.729 C 0.546 1.083 0.716 1.064 0.803 0.799 C 0.879 0.556 0.934 0.607 0.971 0.352 S 0.206 -0.196 0.045 0.248');
-	}
-
-	to{
-		d: path('M 0.045 0.248 C -0.057 0.561 0.319 0.603 0.342 0.676 C 0.479 1.084 0.673 1.057 0.777 0.817 C 0.879 0.556 0.963 0.518 0.966 0.311 S 0.306 -0.206 0.045 0.248');
-	}
-}
-
-#curve2 path{
-	animation-duration: 9s;
-  animation-name: curve2;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-
-@keyframes curve3{
-	from{
-		d: path('M 0.018 0.242 C -0.082 0.66 0.306 0.499 0.431 0.774 C 0.525 1.123 1.053 0.875 0.977 0.445 C 0.947 0.283 0.742 0.313 0.544 0.217 S 0.189 -0.091 0.018 0.242');
-	}
-
-	25%{
-		d: path('M 0.018 0.242 C -0.082 0.66 0.386 0.568 0.459 0.753 C 0.55 1.071 1.057 0.847 0.984 0.438 C 0.896 0.185 0.784 0.294 0.533 0.221 S 0.18 -0.035 0.018 0.242');
-	}
-
-	50%{
-		d: path('M 0.018 0.242 C -0.082 0.66 0.309 0.531 0.41 0.762 C 0.578 1.137 1.057 0.847 0.984 0.438 C 0.896 0.185 0.742 0.369 0.533 0.221 S 0.179 -0.058 0.018 0.242');
-	}
-
-	70%{
-		d: path('M 0.018 0.242 C -0.082 0.66 0.386 0.568 0.459 0.753 C 0.55 1.071 1.057 0.847 0.984 0.438 C 0.896 0.185 0.784 0.294 0.533 0.221 S 0.18 -0.035 0.018 0.242');
-	}
-
-	to{
-		d: path('M 0.018 0.242 C -0.082 0.66 0.306 0.499 0.431 0.774 C 0.525 1.123 1.053 0.875 0.977 0.445 C 0.947 0.283 0.742 0.313 0.544 0.217 S 0.189 -0.091 0.018 0.242');
-	}
-}
-
-#curve3 path{
-	animation-duration: 9s;
-  animation-name: curve3;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-
-@keyframes curve4{
-	from{
-		d: path('M 0.003 0.48 C -0.045 0.663 0.314 0.523 0.428 0.629 C 0.69 1.062 1.062 0.87 0.989 0.505 C 0.92 0.204 0.786 0.17 0.654 0.129 C 0.533 0.088 0.412 0.223 0.295 0.322 C 0.169 0.402 0.044 0.326 0.003 0.48');
-	}
-
-	15%{
-		d: path('M 0.008 0.436 C -0.053 0.661 0.318 0.51 0.444 0.623 C 0.646 1.069 1.034 0.869 0.989 0.505 C 0.945 0.215 0.81 0.158 0.676 0.12 C 0.533 0.088 0.412 0.223 0.289 0.296 C 0.176 0.363 0.067 0.303 0.008 0.436');
-	}
-
-	50%{
-		d: path('M 0.002 0.476 C -0.024 0.807 0.334 0.486 0.521 0.704 C 0.717 0.982 1.054 0.88 0.987 0.518 C 0.911 0.248 0.777 0.179 0.675 0.133 C 0.534 0.097 0.413 0.213 0.293 0.343 C 0.148 0.443 0.026 0.331 0.002 0.476');
-	}
-
-	80%{
-		d: path('M 0.008 0.436 C -0.053 0.661 0.318 0.51 0.444 0.623 C 0.646 1.069 1.034 0.869 0.989 0.505 C 0.945 0.215 0.81 0.158 0.676 0.12 C 0.533 0.088 0.412 0.223 0.289 0.296 C 0.176 0.363 0.067 0.303 0.008 0.436');
-	}
-
-	to{
-		d: path('M 0.003 0.48 C -0.045 0.663 0.314 0.523 0.428 0.629 C 0.69 1.062 1.062 0.87 0.989 0.505 C 0.92 0.204 0.786 0.17 0.654 0.129 C 0.533 0.088 0.412 0.223 0.295 0.322 C 0.169 0.402 0.044 0.326 0.003 0.48');
-	}
-}
-
-#curve4 path{
-	animation-duration: 9s;
-  animation-name: curve4;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-
-.carousel-item:nth-child(1) h2{
+.slide1 h2{
 	color: #c6829b;
 }
-.carousel-item:nth-child(2) h2{
+.slide2 h2{
 	color: #c38248;
 }
-.carousel-item:nth-child(3) h2{
+.slide3 h2{
 	color: #5b8e9d;
 }
-.carousel-item:nth-child(4) h2{
+.slide4 h2{
 	color: #69af89;
 }
