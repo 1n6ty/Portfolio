@@ -33,9 +33,7 @@ var colors = [
 	'#c6829b', '#c38248', '#5b8e9d', '#69af89'
 ];
 
-var pics = [];
-
-var timer = 0, intTimer = 0;
+var timer = 0, intTimer = 0, path = $('#curve1 > path');
 
 function getRand(cAnimation, cur){
 	let rNum = Math.floor(Math.random() * animations[cAnimation].length);
@@ -43,34 +41,29 @@ function getRand(cAnimation, cur){
 	return rNum;
 }
 
+function times(cAnimation, currentAn){
+	currentAn = getRand(cAnimation, currentAn);
+	path.attr('d', animations[cAnimation][currentAn]);
+	timer = setTimeout(() => {
+		currentAn = getRand(cAnimation, currentAn);
+		path.attr('d', animations[cAnimation][currentAn]);
+	}, 3000);
+}
+
 function setAnimation(cAnimation, fstFlag = false){
 	let currentAn = 0;
-	function times(){
-		timer = setTimeout(() => {
-			currentAn = getRand(cAnimation, currentAn);
-			$('#curve1 > path').attr('d', animations[cAnimation][currentAn]);
-			timer = setTimeout(() => {
-				currentAn = getRand(cAnimation, currentAn);
-				$('#curve1 > path').attr('d', animations[cAnimation][currentAn]);
-			}, 3000);
-		}, 0);
-	}
 	if(!fstFlag) pics[cAnimation].insertBefore($('.svgImg'));
 	else pics[cAnimation].css('opacity', 1).appendTo($('.imgToSvg'));
 	clearTimeout(timer);
 	clearInterval(intTimer);
-	times();
+	times(cAnimation, currentAn);
 	intTimer = setInterval(() => {
-		times();
+		times(cAnimation, currentAn);
 	}, 6000);
 }
 
-pics.push($('<img src="assets/IMG/1.jpg" style="clip-path: url(#curve1);" class="svgImg 1"/>'));
-pics.push($('<img src="assets/IMG/4.jpg" style="clip-path: url(#curve1);" class="svgImg 2"/>'));
-pics.push($('<img src="assets/IMG/2.jpg" style="clip-path: url(#curve1);" class="svgImg 3"/>'));
-pics.push($('<img src="assets/IMG/3.jpg" style="clip-path: url(#curve1);" class="svgImg 4"/>'));
-
 $(document).ready(function (){
+	console.log('done');
 	$('.slick-slider').slick({
 	  centerMode: true,
 	  centerPadding: '60px',
@@ -125,7 +118,7 @@ $('.slick-slider').on('beforeChange', function(e, {}, prev, next){
 	}, 500);
 	prevWrap = next;
 	$('.svgImg.' + (prev + 1)).css('opacity', 0);
-	setTimeout(() => {$('.svgImg.' + (prev + 1)).css('opacity', 1);$('.svgImg.' + (prev + 1)).detach()}, 1000);
+	setTimeout(() => {$('.svgImg.' + (prev + 1)).css('opacity', 1);$('.svgImg.' + (prev + 1)).remove()}, 1000);
 	setAnimation(next);
 	$('.topNav .shortInfo span').get(0).style.setProperty('--linkColor', colors[next]);
 	$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(2)').get(0).style.setProperty('--linkColor', colors[next]);
