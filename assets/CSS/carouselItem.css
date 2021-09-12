@@ -33,6 +33,10 @@
 	width: 80vh;
 }
 
+.slick-slide.slick-center{
+	z-index: 9999;
+}
+
 .slick-slide.slick-center svg{
 	transform: scale(115%);
 	height: 24vh;

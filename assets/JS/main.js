@@ -1,69 +1,6 @@
-var mainCarousel = document.querySelector('#mainCarousel'),
-		prevButton = '',
-		nextButton = '',
-		wrapPrevButton = '',
-		wrapNextButton = '',
-		prevWrap = 0,
-		background = document.querySelector('.background');
-
-var gradientList = [
-	{
-		prev: 'linear-gradient(90deg, rgba(202,230,215, 1) 0%, rgba(202,230,215, 0) 100%)',
-		next: 'linear-gradient(90deg, rgba(254,214,182, 0) 0%, rgba(254,214,182, 1) 100%)',
-		background: '#edd7df'
-	},
-	{
-		prev: 'linear-gradient(90deg, rgba(237,215,223, 1) 0%, rgba(237,215,223, 0) 100%)',
-		next: 'linear-gradient(90deg, rgba(186,216,224, 0) 0%, rgba(186,216,224, 1) 100%)',
-		background: '#fed6b6'
-	},
-	{
-		prev: 'linear-gradient(90deg, rgba(254,214,182, 1) 0%, rgba(254,214,182, 0) 100%)',
-		next: 'linear-gradient(90deg, rgba(202,230,215, 0) 0%, rgba(202,230,215, 1) 100%)',
-		background: '#bad8e0'
-	},
-	{
-		prev: 'linear-gradient(90deg, rgba(186,216,224, 1) 0%, rgba(186,216,224, 0) 100%)',
-		next: 'linear-gradient(90deg, rgba(237,215,223, 0) 0%, rgba(237,215,223, 1) 100%)',
-		background: '#cae6d7'
-	}
-];
-
-var colors = [
-	'#c6829b', '#c38248', '#5b8e9d', '#69af89'
-];
-
-var timer = 0, intTimer = 0, path = $('#curve1 > path');
-
-function getRand(cAnimation, cur){
-	let rNum = Math.floor(Math.random() * animations[cAnimation].length);
-	while (rNum == cur) rNum = Math.floor(Math.random() * animations[cAnimation].length);
-	return rNum;
-}
-
-function times(cAnimation, currentAn){
-	currentAn = getRand(cAnimation, currentAn);
-	path.attr('d', animations[cAnimation][currentAn]);
-	timer = setTimeout(() => {
-		currentAn = getRand(cAnimation, currentAn);
-		path.attr('d', animations[cAnimation][currentAn]);
-	}, 3000);
-}
-
-function setAnimation(cAnimation, fstFlag = false){
-	let currentAn = 0;
-	if(!fstFlag) pics[cAnimation].insertBefore($('.svgImg'));
-	else pics[cAnimation].css('opacity', 1).appendTo($('.imgToSvg'));
-	clearTimeout(timer);
-	clearInterval(intTimer);
-	times(cAnimation, currentAn);
-	intTimer = setInterval(() => {
-		times(cAnimation, currentAn);
-	}, 6000);
-}
+var emailCopy = document.querySelector('div.topNav > div.meWrap > div > ul > li:nth-child(1) > a');
 
 $(document).ready(function (){
-	console.log('done');
 	$('.slick-slider').slick({
 	  centerMode: true,
 	  centerPadding: '60px',
@@ -172,32 +109,15 @@ $('.nav .out').on('click', function(e){
 	}, 500);
 });
 
-$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(1)').hover(function(e){
-	$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(1)').css('opacity', 0);
-	$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(2)').css('visibility', 'inherit');
-	$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(2)').css('opacity', 1);
-	setTimeout(() => $('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(1)').css('visibility', 'hidden'), 1);
+emailCopy.addEventListener('mouseenter', function(e){
+	console.log('enter');
+	emailCopy.innerText = 'Copy email to clipboard';
 });
-$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(2)').hover(function(e){}, function(e){
-	$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(2)').css('opacity', 0);
-	$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(1)').css('visibility', 'inherit');
-	$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(1)').css('opacity', 1);
-	setTimeout(() => {
-		$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(2)').css('visibility', 'hidden');
-		$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(2)').text('Copy email to clipboard');
-	}, 1);
+emailCopy.addEventListener('mouseout', function(e){
+	console.log('over');
+	emailCopy.innerText = 'Email';
 });
-function copy(text) {
-  const ta = document.createElement('textarea');
-  ta.style.cssText = 'opacity:0; position:fixed; width:1px; height:1px; top:0; left:0;';
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  document.execCommand('copy');
-  ta.remove();
-}
-$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(2)').on('click', function(e){
+emailCopy.addEventListener('click', function(e){
 	copy('artyom.inety@gmail.com');
-	$('#mainCarousel > section > div.topNav > div.meWrap > div > ul > li:nth-child(1) > a:nth-child(2)').text('Copied!');
+	emailCopy.innerText = 'Copied!';
 });

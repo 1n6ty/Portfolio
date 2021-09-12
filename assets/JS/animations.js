@@ -14,8 +14,83 @@ var animations = [
 	'M 0.233 0.063 C 0.071 0.071 -0.042 0.286 0.026 0.467 C 0.109 0.651 0.333 0.497 0.471 0.892 C 0.497 0.948 0.644 0.962 0.72 0.933 C 0.828 0.883 0.844 0.854 0.923 0.757 C 1.019 0.617 1.022 0.396 0.873 0.339 C 0.829 0.325 0.805 0.318 0.655 0.281 C 0.461 0.224 0.396 0.057 0.233 0.063'],
 	['M 0.648 0.146 C 0.473 0.134 0.45 0.227 0.273 0.373 C 0.146 0.453 0.02 0.339 0.015 0.531 C 0.015 0.665 0.209 0.683 0.354 0.634 C 0.514 0.585 0.595 0.881 0.759 0.874 C 1.031 0.892 1.015 0.606 0.974 0.488 C 0.934 0.377 0.905 0.326 0.842 0.251 C 0.794 0.194 0.741 0.159 0.648 0.146',
 	'M 0.65 0.161 C 0.473 0.134 0.473 0.252 0.273 0.373 C 0.168 0.431 0.014 0.389 0.038 0.561 C 0.069 0.701 0.208 0.635 0.354 0.634 C 0.592 0.631 0.518 0.878 0.757 0.899 C 1.006 0.915 1.015 0.606 0.984 0.49 C 0.947 0.373 0.914 0.313 0.842 0.251 C 0.786 0.205 0.743 0.176 0.65 0.161',
-	'M 0.685 0.156 C 0.483 0.148 0.379 0.343 0.261 0.378 C 0.207 0.39 0.004 0.367 0.028 0.51 C 0.063 0.677 0.208 0.635 0.359 0.628 C 0.537 0.62 0.535 0.902 0.762 0.889 C 1.016 0.873 1.015 0.606 0.984 0.49 C 0.947 0.373 0.914 0.313 0.874 0.265 C 0.789 0.177 0.73 0.161 0.685 0.156',]
+	'M 0.685 0.156 C 0.483 0.148 0.379 0.343 0.261 0.378 C 0.207 0.39 0.004 0.367 0.028 0.51 C 0.063 0.677 0.208 0.635 0.359 0.628 C 0.537 0.62 0.535 0.902 0.762 0.889 C 1.016 0.873 1.015 0.606 0.984 0.49 C 0.947 0.373 0.914 0.313 0.874 0.265 C 0.789 0.177 0.73 0.161 0.685 0.156']
 ];
 
 var pics = [$('<img src="assets/IMG/1.jpg" style="clip-path: url(#curve1);" class="svgImg 1"/>'), $('<img src="assets/IMG/4.jpg" style="clip-path: url(#curve1);" class="svgImg 2"/>'),
 			$('<img src="assets/IMG/2.jpg" style="clip-path: url(#curve1);" class="svgImg 3"/>'), $('<img src="assets/IMG/3.jpg" style="clip-path: url(#curve1);" class="svgImg 4"/>')];
+
+var mainCarousel = document.querySelector('#mainCarousel'),
+		prevButton = '',
+		nextButton = '',
+		wrapPrevButton = '',
+		wrapNextButton = '',
+		prevWrap = 0,
+		background = document.querySelector('.background');
+
+var gradientList = [
+	{
+		prev: 'linear-gradient(90deg, rgba(202,230,215, 1) 0%, rgba(202,230,215, 0) 100%)',
+		next: 'linear-gradient(90deg, rgba(254,214,182, 0) 0%, rgba(254,214,182, 1) 100%)',
+		background: '#edd7df'
+	},
+	{
+		prev: 'linear-gradient(90deg, rgba(237,215,223, 1) 0%, rgba(237,215,223, 0) 100%)',
+		next: 'linear-gradient(90deg, rgba(186,216,224, 0) 0%, rgba(186,216,224, 1) 100%)',
+		background: '#fed6b6'
+	},
+	{
+		prev: 'linear-gradient(90deg, rgba(254,214,182, 1) 0%, rgba(254,214,182, 0) 100%)',
+		next: 'linear-gradient(90deg, rgba(202,230,215, 0) 0%, rgba(202,230,215, 1) 100%)',
+		background: '#bad8e0'
+	},
+	{
+		prev: 'linear-gradient(90deg, rgba(186,216,224, 1) 0%, rgba(186,216,224, 0) 100%)',
+		next: 'linear-gradient(90deg, rgba(237,215,223, 0) 0%, rgba(237,215,223, 1) 100%)',
+		background: '#cae6d7'
+	}
+];
+
+var colors = [
+	'#c6829b', '#c38248', '#5b8e9d', '#69af89'
+];
+
+var timer = 0, intTimer = 0, path = $('#curve1 > path');
+
+function getRand(cAnimation, cur){
+	let rNum = Math.floor(Math.random() * animations[cAnimation].length);
+	while (rNum == cur) rNum = Math.floor(Math.random() * animations[cAnimation].length);
+	return rNum;
+}
+
+function times(cAnimation, currentAn){
+	currentAn = getRand(cAnimation, currentAn);
+	path.attr('d', animations[cAnimation][currentAn]);
+	timer = setTimeout(() => {
+		currentAn = getRand(cAnimation, currentAn);
+		path.attr('d', animations[cAnimation][currentAn]);
+	}, 3000);
+}
+
+function setAnimation(cAnimation, fstFlag = false){
+	let currentAn = 0;
+	if(!fstFlag) pics[cAnimation].insertBefore($('.svgImg'));
+	else pics[cAnimation].css('opacity', 1).appendTo($('.imgToSvg'));
+	clearTimeout(timer);
+	clearInterval(intTimer);
+	times(cAnimation, currentAn);
+	intTimer = setInterval(() => {
+		times(cAnimation, currentAn);
+	}, 6000);
+}
+
+function copy(text) {
+  const ta = document.createElement('textarea');
+  ta.style.cssText = 'opacity:0; position:fixed; width:1px; height:1px; top:0; left:0;';
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  document.execCommand('copy');
+  ta.remove();
+}

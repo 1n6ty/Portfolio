@@ -1,22 +1,18 @@
-@font-face{
-	font-family: freight-medium;
-	src: url("../Fonts/freight/Freight_Disp_Light.otf") format("opentype");
+.nav{
+	position: absolute;
+	top: 0;
+	left: 0;
 }
-
-@font-face{
-	font-family: proximaLight;
-	src: url("../Fonts/proximaNova/ProximaNova-Light.otf") format("opentype");
-}
-
 .nav.active{
 	width: 100%;
 	height: 100vh;
-	position: absolute;
+	position: fixed;
 	left: 0;
 	top: 0;
 	background-color: rgba(255, 255, 255, 0.8);
 	z-index: 1001;
 	transition: .5s;
+	overflow: hidden;
 }
 .nav.active .out{
 	width: 100%;

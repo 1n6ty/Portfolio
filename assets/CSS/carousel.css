@@ -23,7 +23,7 @@
 
 #mainCarousel .slick-dots{
 	position: absolute;
-	bottom: 230px;
+	bottom: 25vh;
 	left: 50%;
 	transform: translateX(-50%);
 	width: auto;
