@@ -129,6 +129,6 @@
 }
 .splitImg{
 	width: 100%;
-	height: 60vh;
+	transition: .3s;
 	object-fit: cover;
 }

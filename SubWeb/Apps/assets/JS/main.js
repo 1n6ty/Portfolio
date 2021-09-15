@@ -4,7 +4,8 @@ var preloader = document.querySelector('.preloader'),
 	nav = document.querySelector('.nav'),
 	navClose = document.querySelector('.nav .close'),
 	navOut = document.querySelector('.nav .out'),
-	emailCopy = document.querySelector('div.topNav > div.meWrap > div > ul > li:nth-child(1) > a');
+	emailCopy = document.querySelector('div.topNav > div.meWrap > div > ul > li:nth-child(1) > a'),
+	splitImg = document.querySelector('.splitImg');
 
 function copy(text) {
   const ta = document.createElement('textarea');
@@ -57,4 +58,11 @@ emailCopy.addEventListener('mouseout', function(e){
 emailCopy.addEventListener('click', function(e){
 	copy('artyom.inety@gmail.com');
 	emailCopy.innerText = 'Copied!';
+});
+
+window.addEventListener('scroll', function(e){
+	if(window.scrollY > 900 && window.scrollY <= 1300){
+		let c = ((window.scrollY - 900) / 400) * 40;
+		splitImg.style = "height: " + (60 + c) + 'vh;'; 
+	}
 });
