@@ -4,6 +4,11 @@
 @import 'navigation.css';
 @import 'sign.css';
 
+@font-face{
+	font-family: freight-medium;
+	src: url("../Fonts/freight/Freight-Display-Pro-Medium.otf") format("opentype");
+}
+
 *{
 	margin: 0;
 	padding: 0;

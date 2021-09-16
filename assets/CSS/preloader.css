@@ -1,8 +1,3 @@
-@font-face{
-	font-family: freight-medium;
-	src: url("../Fonts/freight/Freight-Display-Pro-Medium.otf") format("opentype");
-}
-
 .preloader .background{
 	background-color: white;
 	position: absolute;
@@ -11,6 +6,7 @@
 	z-index: 1002;
 }
 .preloader .sign{
+	justify-content: center;
 	width: 100%;
 	height: 13.5vh;
 	-webkit-transition: 2s;

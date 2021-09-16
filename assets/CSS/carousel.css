@@ -75,7 +75,7 @@
 }
 
 #mainCarousel .carousel-control-prev{
-	width: 145px;
+	width: 115px;
 	background: linear-gradient(90deg, rgba(202,230,215, 1) 0%, rgba(202,230,215, 0) 100%);
 }
 
@@ -92,6 +92,6 @@
 	opacity: 1;
 }
 #mainCarousel .carousel-control-next{
-	width: 145px;
+	width: 115px;
 	background: linear-gradient(90deg, rgba(254,214,182, 0) 0%, rgba(254,214,182, 1) 100%);
 }
