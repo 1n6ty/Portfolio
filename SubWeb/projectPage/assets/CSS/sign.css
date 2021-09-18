@@ -1,13 +1,19 @@
+@font-face{
+	font-family: freight-medium;
+	src: url("../Fonts/freight/Freight_Disp_Light.otf") format("opentype");
+}
+
 .sign{
 	position: fixed;
 	left: 0;
 	top: 0;
-	width: 13%;
+	width: 16%;
 	height: 13.5vh;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
 	float: left;
+	font-family: freight-medium, serif;
 }
 .sign *{
 	letter-spacing: 1px;
@@ -18,7 +24,6 @@
 	transition: .5s;
 	text-decoration: none;
 	color: black;
-	font-family: freight-medium, serif;
 }
 .sign *:hover{
 	opacity: 0.9;
