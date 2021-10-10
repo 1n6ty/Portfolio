@@ -61,8 +61,9 @@ emailCopy.addEventListener('click', function(e){
 });
 
 window.addEventListener('scroll', function(e){
-	if(window.scrollY > 900 && window.scrollY <= 1300){
-		let c = ((window.scrollY - 900) / 400) * 40;
-		splitImg.style = "height: " + (60 + c) + 'vh;'; 
+	let c = this.document.documentElement.scrollTop;
+	console.log(c);
+	if(c >= 1100 && c <= 1700){
+		splitImg.style = "height: " + (60 + (c - 1100) / 9) + 'vh;'; 
 	}
 });
