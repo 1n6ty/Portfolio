@@ -1,0 +1,19 @@
+@import url('./content.css');
+@import url('../common/specs.css');
+
+.about{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    transition: transform .7s ease-in-out;
+    transform: translate3d(0, -100%, 0);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.about.up{
+    transform: translate3d(0, 0, 0);
+}

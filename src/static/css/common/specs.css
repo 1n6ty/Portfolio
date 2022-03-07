@@ -1,0 +1,115 @@
+.myName{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1.5em;
+    margin-right: 0;
+}
+
+.myName p{
+    color: #979797;
+    font-size: 0.9rem;
+    margin-right: 0;
+}
+
+.link{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 1.5em;
+    margin-left: 2em;
+}
+
+.link p{
+    font-size: 0.9rem;
+    color: #979797;
+    overflow: hidden;
+}
+
+.link p a span{
+    position: relative;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.85, 0.135, 0.15, 0.5);
+    color: #979797;
+    font-size: 0.9rem;
+}
+
+.upTrigger{
+    position: absolute;
+    top: 30px;
+    transform: rotateZ(270deg);
+    left: 50%;
+    aspect-ratio: 1;
+    user-select: none;
+  }
+  
+  .upTrigger:hover{
+    top: 25px;
+  }
+  
+  .downTrigger{
+    position: absolute;
+    bottom: 30px;
+    transform: rotateZ(270deg);
+    left: 50%;
+    font-size: 1rem;
+    aspect-ratio: 1;
+    user-select: none;
+  }
+  
+  .downTrigger:hover{
+    bottom: 25px;
+  }
+  
+  a:link{
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.7);
+  }
+  
+  a, a:active{
+    color: #353535;
+    text-decoration: none;
+    transition: opacity .3s ease-in-out, top .3s ease-in-out, bottom .3s ease-in-out, transform .3s ease-in-out;
+    cursor: pointer;
+  }
+
+  a.downTrigger span,
+  a.upTrigger span{
+    font-size: 1rem;
+  }
+
+@media (min-device-width: 320px){
+  .link p a:hover span{
+      transform: translate3d(200%, 0, 0);
+  }
+  .link p a span::before{
+      position: absolute;
+      transform: translate3d(-200%, 0, 0);
+      content: attr(data-hover);
+      font-size: 0.9rem;
+      color: #353535;
+  }
+  .link p{
+    margin: 0;
+  }
+  .myName{
+    width: 2em;
+  }
+}
+
+@media (min-device-width: 450px){
+  .link p a:hover span{
+    transform: translate3d(0, 200%, 0);
+  }
+
+  .link p a span::before{
+      position: absolute;
+      transform: translate3d(0, -200%, 0);
+      content: attr(data-hover);
+      font-size: 0.9rem;
+      color: #353535;
+  }
+  .myName{
+    width: auto;
+  }
+}

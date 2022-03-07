@@ -1,0 +1,15 @@
+@import url('../common/specs.css');
+
+.main{
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    transition: transform .3s ease-in;
+}
+.main.up{
+    transform: translate3d(0, -100px, 0);
+}
+.main.down{
+    transform: translate3d(0, 100px, 0);
+}
