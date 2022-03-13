@@ -16,9 +16,10 @@ class Main extends Component {
       width: window.innerWidth
     };
 
+    this.keys = {};
     this.animate = this.animate.bind(this);
-    this.mouseX = 0;
-    this.mouseY = 0;
+    this.lookAtVector = [0, 0, 0];
+    this.cameraPositionVector = [2, 2, 5];
   }
 
   componentWillReceiveProps(){
@@ -46,31 +47,25 @@ class Main extends Component {
       0.1,
       1000
     );
-    this.camera.position.z = 50;
-    this.camera.position.y = 0;
-    this.camera.position.x = 0;
-    this.camera.rotation.y = 0;
-    this.camera.rotation.x = 0;
+    this.camera.position.set(...this.cameraPositionVector);
+    this.camera.lookAt(...this.lookAtVector);
 
     
 
       const ground = new THREE.PlaneGeometry(10, 10);
       const material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
-      const mesh = new THREE.Mesh(ground, material);
-      //this.scene.add(mesh);
+      const groundMesh = new THREE.Mesh(ground, material);
 
-    this.props.setDoneLoading();
+      groundMesh.rotateX(-Math.PI / 2);
+      this.scene.add(groundMesh);
 
     const loader = new GLTFLoader();
-    console.log(chr);
     loader.load(chr,
                 (obj) => {
-                  obj.scene.children[0].scale.set(4, 4, 4);
-                  new THREE.Box3().setFromObject( obj.scene.children[0] ).getCenter( obj.scene.children[0].position ).multiplyScalar( - 1 )
-                  let pivot = new THREE.Object3D();
-                  pivot.add(obj.scene);
-                  this.obj = pivot;
-                  this.scene.add( pivot );
+                  this.mainObj = obj;
+                  this.mainObj.scene.scale.set(0.1, 0.1, 0.1);
+                  this.mainObj.scene.position.y = 1;
+                  this.scene.add(this.mainObj.scene);
                   this.props.setDoneLoading();
                 },
                 (xhr) => {
@@ -81,16 +76,41 @@ class Main extends Component {
                 });
 
 
-    const light = new THREE.PointLight( 0x46dff0, 1, 600 );
+    const light = new THREE.PointLight( 0xffffff, 1, 600 );
     light.castShadow = true;
     light.position.set( 30, 50, 50 );
     this.scene.add( light );
 
-    window.addEventListener('mousemove', (e) => {
-      e.preventDefault();
-      this.mouseX = ((e.clientX / window.innerWidth) * 2 - 1) * Math.PI / 2;
-      this.mouseY = (-(e.clientY / window.innerHeight) * 2 + 1) * Math.PI / 2;
-    });
+    window.addEventListener('keydown', (event) => {
+      this.keys[event.key] = true;
+   
+      if(this.keys['s']){
+        this.mainObj.scene.position.z += 1;
+        this.cameraPositionVector[2] += 1;
+        this.lookAtVector[2] += 1;
+      }
+      if(this.keys['w']){
+        this.mainObj.scene.position.z -= 1;
+        this.cameraPositionVector[2] -= 1;
+        this.lookAtVector[2] -= 1;
+      }
+      if(this.keys['a']){
+        this.mainObj.scene.position.x -= 1;
+        this.cameraPositionVector[0] -= 1;
+        this.lookAtVector[0] -= 1;
+      }
+      if(this.keys['d']){
+        this.mainObj.scene.position.x += 1;
+        this.cameraPositionVector[0] += 1;
+        this.lookAtVector[0] += 1;
+      }
+      this.camera.position.set(...this.cameraPositionVector);
+      this.camera.lookAt(...this.lookAtVector);
+   });
+   
+   window.addEventListener('keyup', (event) => {
+      delete this.keys[event.key];
+   });
 
     this.mount.appendChild(this.renderer.domElement)
     if (!this.frameId) {
@@ -106,11 +126,6 @@ class Main extends Component {
       this.renderer.setSize(this.width, this.height);
       this.camera.aspect = this.width / this.height;
       this.camera.updateProjectionMatrix();
-    }
-    
-    if(this.obj){
-        this.obj.rotation.x += (-this.mouseY - parseInt(this.obj.rotation.x * 100) * 0.04) * 0.01;
-        this.obj.rotation.y += (this.mouseX - parseInt(this.obj.rotation.y * 100) * 0.04) * 0.01
     }
 
     this.renderer.render(this.scene, this.camera);
