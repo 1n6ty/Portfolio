@@ -23,11 +23,6 @@ export default class App extends Component{
     render(){
         return (
             <section className='about'>
-                <div className='link'>
-                    <p>
-                    <a href='#' target='_blank'><span data-hover="instagram">instagram</span></a> {(this.state.width <= 450) ? <br/>: '/'} <a href='#' target='_blank'><span data-hover="twitter">twitter</span></a>
-                    </p>
-                </div>
                 <div className='content'>
                     <div className='wp'>
                         <div className='wrapAbout'>
@@ -66,7 +61,12 @@ export default class App extends Component{
                                 <p>Send me an email over <a className="underline" href="mailto:artyom.inety@gmail.com">artyom.inety@gmail.com</a></p>
                             </div>
                         </div>
-                        <a className='downTrigger' style={{left: (this.props.widthL - 20) / 2}} onClick={this.props.closeAboutClick}><span>Close</span></a>
+                    </div>
+                    <a className='downTrigger' onClick={this.props.closeAboutClick}><span>Close</span></a>
+                    <div className='link'>
+                        <p>
+                        <a href='#' target='_blank'><span data-hover="instagram">instagram</span></a> {(this.state.width <= 450) ? <br/>: '/'} <a href='#' target='_blank'><span data-hover="twitter">twitter</span></a>
+                        </p>
                     </div>
                 </div>
             </section>

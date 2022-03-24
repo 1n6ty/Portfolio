@@ -4,8 +4,11 @@ export default function ViewElem(props){
             <img src={props.img}/>
             <div className='overlay'>
                 <div className='text'>
-                    <h4>{props.title}</h4>
-                    <h5>{props.genre}</h5>
+                    <p>
+                    {props.title}
+                    <br/>
+                        <span>{props.genre}</span>
+                    </p>
                 </div>
             </div>
         </a>

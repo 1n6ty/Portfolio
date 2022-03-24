@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-import chr from '../../static/models/main/main.gltf';
+import car from '../../static/models/main/car.gltf';
 
 class Main extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class Main extends Component {
     this.keys = {};
     this.animate = this.animate.bind(this);
     this.lookAtVector = [0, 0, 0];
-    this.cameraPositionVector = [2, 2, 5];
+    this.cameraPositionVector = [2, 4, 5];
   }
 
   componentWillReceiveProps(){
@@ -52,21 +52,20 @@ class Main extends Component {
 
     
 
-      const ground = new THREE.PlaneGeometry(10, 10);
-      const material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
-      const groundMesh = new THREE.Mesh(ground, material);
-
-      groundMesh.rotateX(-Math.PI / 2);
-      this.scene.add(groundMesh);
+    
 
     const loader = new GLTFLoader();
-    loader.load(chr,
+
+    loader.load(car,
                 (obj) => {
-                  this.mainObj = obj;
-                  this.mainObj.scene.scale.set(0.1, 0.1, 0.1);
-                  this.mainObj.scene.position.y = 1;
-                  this.scene.add(this.mainObj.scene);
+                  this.mainObj = obj.scene;
+                  this.mainObj.position.y = 1;
+                  this.mainObj.scale.set(0.1, 0.1, 0.1);
+                  this.scene.add(this.mainObj);
                   this.props.setDoneLoading();
+                  if (!this.frameId) {
+                    this.frameId = requestAnimationFrame(this.animate);
+                  }
                 },
                 (xhr) => {
                   console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
@@ -76,46 +75,20 @@ class Main extends Component {
                 });
 
 
-    const light = new THREE.PointLight( 0xffffff, 1, 600 );
+    const light = new THREE.PointLight( 0xffffff, 1.7, 1000 );
     light.castShadow = true;
     light.position.set( 30, 50, 50 );
     this.scene.add( light );
 
     window.addEventListener('keydown', (event) => {
       this.keys[event.key] = true;
-   
-      if(this.keys['s']){
-        this.mainObj.scene.position.z += 1;
-        this.cameraPositionVector[2] += 1;
-        this.lookAtVector[2] += 1;
-      }
-      if(this.keys['w']){
-        this.mainObj.scene.position.z -= 1;
-        this.cameraPositionVector[2] -= 1;
-        this.lookAtVector[2] -= 1;
-      }
-      if(this.keys['a']){
-        this.mainObj.scene.position.x -= 1;
-        this.cameraPositionVector[0] -= 1;
-        this.lookAtVector[0] -= 1;
-      }
-      if(this.keys['d']){
-        this.mainObj.scene.position.x += 1;
-        this.cameraPositionVector[0] += 1;
-        this.lookAtVector[0] += 1;
-      }
-      this.camera.position.set(...this.cameraPositionVector);
-      this.camera.lookAt(...this.lookAtVector);
    });
    
    window.addEventListener('keyup', (event) => {
       delete this.keys[event.key];
    });
 
-    this.mount.appendChild(this.renderer.domElement)
-    if (!this.frameId) {
-      this.frameId = requestAnimationFrame(this.animate);
-    }
+    this.mount.appendChild(this.renderer.domElement);
   }
 
   animate() {
@@ -127,6 +100,55 @@ class Main extends Component {
       this.camera.aspect = this.width / this.height;
       this.camera.updateProjectionMatrix();
     }
+
+    let step = 0.04;
+    if(this.keys['s']){
+      this.mainObj.position.z += step;
+      this.cameraPositionVector[2] += step;
+      this.lookAtVector[2] += step;
+      this.mainObj.rotation.y = 0;
+      if(this.keys['a']){
+        this.mainObj.position.x -= step;
+        this.cameraPositionVector[0] -= step;
+        this.lookAtVector[0] -= step;
+        this.mainObj.rotation.y = 7 * Math.PI / 4;
+      } else if(this.keys['d']){
+        this.mainObj.position.x += step;
+        this.cameraPositionVector[0] += step;
+        this.lookAtVector[0] += step;
+        this.mainObj.rotation.y = Math.PI / 4;
+      }
+    } else if(this.keys['w']){
+      this.mainObj.position.z -= step;
+      this.cameraPositionVector[2] -= step;
+      this.lookAtVector[2] -= step;
+      this.mainObj.rotation.y = Math.PI;
+      if(this.keys['a']){
+        this.mainObj.position.x -= step;
+        this.cameraPositionVector[0] -= step;
+        this.lookAtVector[0] -= step;
+        this.mainObj.rotation.y = 5 * Math.PI / 4;
+      } else if(this.keys['d']){
+        this.mainObj.position.x += step;
+        this.cameraPositionVector[0] += step;
+        this.lookAtVector[0] += step;
+        this.mainObj.rotation.y = 3 * Math.PI / 4;
+      }
+    } else if(this.keys['a']){
+      this.mainObj.position.x -= step;
+      this.cameraPositionVector[0] -= step;
+      this.lookAtVector[0] -= step;
+      this.mainObj.rotation.y = 3 * Math.PI / 2;
+    } else if(this.keys['d']){
+      this.mainObj.position.x += step;
+      this.cameraPositionVector[0] += step;
+      this.lookAtVector[0] += step;
+      this.mainObj.rotation.y = Math.PI / 2;
+    }
+    this.camera.position.set(...this.cameraPositionVector);
+    this.camera.lookAt(...this.lookAtVector);
+
+
 
     this.renderer.render(this.scene, this.camera);
     this.frameId = window.requestAnimationFrame(this.animate);
@@ -144,8 +166,8 @@ class Main extends Component {
         <div
           ref={(mount) => { this.mount = mount }} 
         />
-        <a className='upTrigger' style={{left: (this.props.widthL - 20) / 2}} onClick={this.props.aboutClick}><span>About me</span></a>
-        <a className='downTrigger' style={{left: (this.props.widthL - 20) / 2}} onClick={this.props.workClick}><span>Work</span></a>
+        <a className='upTrigger' onClick={this.props.aboutClick}>About me</a>
+        <a className='downTrigger' onClick={this.props.workClick}>Work</a>
       </section>
     )
   }

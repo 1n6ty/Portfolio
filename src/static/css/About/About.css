@@ -1,19 +1,192 @@
-@import url('./content.css');
-@import url('../common/specs.css');
-
 .about{
     background-color: white;
+    position: absolute;
+    top: -100vh;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: all .7s ease-out;
+}
+.about.active{
+    top: 0;
+    height: 100%;
+}
+
+.about .content{
+    position: relative;
+}
+
+.about .wp{
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    max-width: 100%;
+}
+.about .wp .wrapAbout{
     display: flex;
     justify-content: center;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    transition: transform .7s ease-in-out;
-    transform: translate3d(0, -100%, 0);
-    min-height: 100vh;
-    overflow-x: hidden;
+    padding-right: 15px;
+    padding-left: 15px;
 }
-.about.up{
-    transform: translate3d(0, 0, 0);
+.about .wp .wrapAbout > div .aboutText p{
+    margin-bottom: 1rem;
+}
+.about .wp .wrapAbout > div .dev ul{
+    list-style-type: none;
+}
+.about .wp .wrapAbout > div .dev ul li{
+    margin-bottom: 0.625rem;
+}
+.about .wp .wrapAbout > div .aboutText,
+.about .wp .wrapAbout > div .dev,
+.about .contact{
+    margin-top: 2.8125rem;
+}
+
+.about .aboutFull{
+    background-color: #E0FFFD;
+    margin-top: 2.8125rem;
+    padding-top: 2.8125rem;
+    padding-bottom: 2.8125rem;
+    display: flex;
+    justify-content: center;
+}
+.about .aboutFull .wrapFull{
+    padding: 0 15px;
+}
+.about .aboutFull .wrapFull p{
+    margin-bottom: 1rem;
+}
+.about .aboutFull .wrapFull .langs{
+    margin: 2.5rem 0 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.about .aboutFull .wrapFull .langs div{
+    margin: 1.875rem 0;
+    display: flex;
+    justify-content: center;
+}
+.about .aboutFull .wrapFull .langs div img{
+    width: 109px;
+    height: 57.5px;
+    vertical-align: middle;
+}
+
+.about .contact{
+    display: flex;
+    justify-content: center;
+}
+.about .contact > div{
+    margin-bottom: 6.25rem;
+    padding: 0 15px;
+}
+.about .contact > div p{
+    margin-bottom: 1rem;
+}
+.about .contact > div p a{
+    padding: 0 0 0.2rem 0;
+    color: #353535;
+    text-decoration: underline;
+    font-size: 1.125rem;
+    font-style: normal;
+    line-height: 1.45;
+}
+.about .contact > div p a:hover{
+    color: #979797;
+}
+
+.about .downTrigger{
+    margin-left: -22px;
+}
+
+@media (min-width: 576px){
+    .about .wp{
+        width: 540px;
+    }
+    .about .wp .wrapAbout > div,
+    .about .aboutFull .wrapFull,
+    .about .contact > div{
+        width: 83%;
+    }
+}
+
+@media (min-width: 768px){
+    .about .wp{
+        width: 720px;
+    }
+    .about .wp .wrapAbout > div .aboutText,
+    .about .wp .wrapAbout > div .dev{
+        margin-top: 4.0625rem;
+    }
+    .about .wp .wrapAbout > div,
+    .about .aboutFull .wrapFull,
+    .about .contact > div{
+        width: 66%;
+    }
+
+    .about .aboutFull{
+        margin-top: 4.0625rem;
+        padding-top: 4.0625rem;
+        padding-bottom: 4.0625rem;
+    }
+    .about .aboutFull .wrapFull .langs{
+        margin: 1.25rem 0 0;
+    }
+    .about .aboutFull .wrapFull .langs div{
+        margin: 1.875rem 0.9375rem;
+    }
+    .about .aboutFull .wrapFull .langs div img{
+        width: 139px;
+        height: 69px;
+    }
+
+    .about .contact{
+        margin-top: 4.0625rem;
+    }
+    .about .contact > div{
+        margin-bottom: 7.5rem;
+    }
+}
+
+@media (min-width: 992px){
+    .about .wp{
+        width: 960px;
+    }
+    .about .wp .wrapAbout > div .aboutText,
+    .about .wp .wrapAbout > div .dev{
+        margin-top: 5.625rem;
+    }
+    .about .wp .wrapAbout > div,
+    .about .aboutFull .wrapFull,
+    .about .contact > div{
+        width: 50%;
+    }
+
+    .about .aboutFull{
+        margin-top: 5.625rem;
+        margin-top: 5.625rem;
+        margin-top: 5.625rem;
+    }
+    .about .aboutFull .wrapFull .langs{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .about .contact{
+        margin-top: 5.625rem;
+    }
+    .about .contact > div{
+        margin-bottom: 9.375rem;
+    }
+}
+
+@media (min-width: 1200px){
+    .about .wp{
+        width: 1140px;
+        max-width: 100%;
+    }
 }

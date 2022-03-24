@@ -1,0 +1,134 @@
+.work .preview{
+    margin-top: 1rem;
+    position: relative;
+    transition: all .7s ease-in-out;
+}
+
+.work .preview .close{
+    float: right;
+    margin-bottom: .75rem;
+    font-size: .75rem;
+    color: #353535;
+    transition: all .3s ease-in-out;
+}
+.work .preview .close:hover{
+    color: #979797;
+}
+
+.work .preview .center{
+    position: relative;
+    transition: all .7s ease-in-out;
+}
+.work .preview .center .leftBtn,
+.work .preview .center .rightBtn{
+    top: 0;
+    position: absolute;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.work .preview .center .leftBtn{
+    left: -6.25rem;
+}
+.work .preview .center .rightBtn{
+    right: -5.75rem;
+}
+.work .preview .center .leftBtn a,
+.work .preview .center .rightBtn a{
+    transform: rotateZ(270deg);
+    font-size: .75rem;
+    color: #353535;
+    transition: all .3s ease-in-out;
+}
+.work .preview .center .leftBtn a:hover,
+.work .preview .center .rightBtn a:hover{
+    color: #979797;
+}
+
+.work .preview .subscription{
+    transition: all .7s ease-in-out;
+    overflow: hidden;
+}
+.work .preview .subscription .short{
+    list-style-type: none;
+}
+.work .preview .subscription .short li{
+    margin-bottom: 0.9375rem;
+}
+.work .preview .subscription .short p{
+    font-size: .875rem;
+    margin: 0;
+}
+.work .preview .subscription .short h4{
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: 0;
+    line-height: 1.25;
+    font-weight: 200;
+}
+.work .preview .subscription .short small{
+    font-size: .75rem;
+    color: #979797;
+    display: block;
+}
+.work .preview .subscription > div{
+    margin-top: 1.875rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 83%;
+    display: block;
+    padding: 0 15px;
+    transition: all .5s ease-in-out;
+}
+.work .preview .subscription .description > p{
+    margin-bottom: 1rem;
+}
+.work .preview .subscription .description .link{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.work .preview .subscription .description .link a{
+    transition: color 0.4s ease-in-out;
+
+}
+.work .preview .subscription .description .link a:hover{
+    color: #353535;
+}
+.work .preview .subscription .description .link span:hover{
+    transform: none;
+}
+.work .preview .subscription .description .link p a:focus span{
+    transform: translate3d(0, -200%, 0);
+}
+.work .preview .PrjLink{
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px){
+    .work .preview .subscription .short h4{
+        font-size: 1.125rem;
+    }
+    .work .preview .subscription > div{
+        width: 66%;
+        margin-top: 2.8125rem;
+    }
+}
+
+@media (min-width: 992px){
+    .work .preview .subscription .short h4{
+        font-size: 1.25rem;
+    }
+    .work .preview .subscription > div{
+        width: 83%;
+        margin-top: 3.75rem;
+        display: flex;
+    }
+    .work .preview .subscription > div .short{
+        width: 30%;
+    }
+    .work .preview .subscription > div .description{
+        width: 68%;
+    }
+}

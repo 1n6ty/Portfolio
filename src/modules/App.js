@@ -34,41 +34,28 @@ class App extends Component {
 
     if (document.body.clientWidth !== this.width || document.body.clientHeight !== this.height) {
       this.setState((state, props) => ({width: this.width}));
-      document.body.style = "height: " + this.height + 'px; width: ' + this.width + 'px';
     }
     this.frameId = window.requestAnimationFrame(this.resize);
   }
 
   workClick(){
     document.querySelector('section.main').className = 'main up';
-    document.querySelector('section.Work').className = 'Work active';
-    setTimeout(() => {
-      document.querySelector('section.Work').className = 'Work active up';
-    }, 100);
+    document.querySelector('section.work').className = 'work active';
   }
 
   closeWorkClick(){
     document.querySelector('section.main').className = 'main';
-    document.querySelector('section.Work').className = 'Work active';
-    setTimeout(() => {
-      document.querySelector('section.Work').className = 'Work';
-    }, 700);
+    document.querySelector('section.work').className = 'work';
   }
 
   aboutClick(){
     document.querySelector('section.main').className = 'main down';
     document.querySelector('section.about').className = 'about active';
-    setTimeout(() => {
-      document.querySelector('section.about').className = 'about active up';
-    }, 100);
   }
 
   closeAboutClick(){
     document.querySelector('section.main').className = 'main';
-    document.querySelector('section.about').className = 'about active';
-    setTimeout(() => {
-      document.querySelector('section.about').className = 'about';
-    }, 700);
+    document.querySelector('section.about').className = 'about';
   }
 
   setLoader(v){

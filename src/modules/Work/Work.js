@@ -43,23 +43,28 @@ export default class Work extends Component{
     render(){
         let filts = [];
         this.state.filts.forEach((v, id) => {
-            filts.push(<>{(id == 0 || this.state.width < 450) ? '': '/'} <a key={id} onClick={() => {this.filtHandler(id)}}><span className={(v == this.state.currentFilt) ? 'active': ''} data-hover={v}>{v}</span></a> {(this.state.width <= 450) ? <br/>: ''}</>);
+            filts.push(<>{(id == 0) ? '': ' /'} <a key={id} onClick={() => {this.filtHandler(id)}}><span className={(v == this.state.currentFilt) ? 'active': ''} data-hover={v}>{v}</span></a></>);
         });
 
         return (
-            <section className='Work'>
-                <a className='upTrigger' style={{left: (this.props.widthL - 20) / 2}} onClick={this.props.closeWorkClick}><span>Close</span></a>
-                <Specs widthL={this.state.width}/>
+            <section className='work'>
                 <div className='content'>
-                    <div>
-                        <div className='wp'>
-                            <h5>Projects</h5>
-                            <p>Some of our most recent work, feel free to filter the projects based on what stuff we did for each.</p>
-                            <div className='filters'>
+                    <div className='wp'>
+                        <div className='preWord'>
+                            <div>
+                                <div className='workText'>
+                                    <h5>Projects</h5>
+                                    <p>Some of our most recent work, feel free to filter the projects based on what stuff we did for each.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='filters'>
+                            <div className='link'>
                                 <p>
                                     {filts}
-                                </p>
+                                </p>  
                             </div>
+                            
                         </div>
                         <View currentFilt={this.state.currentFilt} />
                         <div className='contact'>
@@ -69,7 +74,9 @@ export default class Work extends Component{
                             </div>
                         </div>
                     </div>
+                    <Specs widthL={this.state.width}/>
                 </div>
+                <a className='upTrigger' onClick={this.props.closeWorkClick}><span>Close</span></a>
             </section>
         );
     }

@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import left from '../../../static/img/left.svg';
 import right from '../../../static/img/right.svg';
 
+import '../../../static/css/Work/Carousel.css';
+
 export default class Carousel extends Component{
     constructor(props){
         super(props);
@@ -67,8 +69,8 @@ export default class Carousel extends Component{
         return (
             <div className='carousel'>
                 <div className='control'>
-                    <div className="prevBtn"><a onClick={this.slideLeft}><img src={left}/></a></div>
-                    <div className='nextBtn'><a onClick={this.slideRight}><img src={right}/></a></div>
+                    <a onClick={this.slideLeft} className="prevBtn"><img src={left}/></a>
+                    <a onClick={this.slideRight} className="nextBtn"><img src={right}/></a>
                     <ul className='dots'>
                         <li className='active' key={0} onClick={() => this.dotClick(0)}></li>
                         {dots}

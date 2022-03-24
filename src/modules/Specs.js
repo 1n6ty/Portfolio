@@ -21,8 +21,8 @@ export default class Specs extends Component{
                     <a href='#' target='_blank'><span data-hover="instagram">instagram</span></a> {(this.state.width <= 450) ? <br/>: '/'} <a href='#' target='_blank'><span data-hover="twitter">twitter</span></a>
                     </p>
                 </div>
-                <div className='myName' style={{left: (this.state.width <= 450) ? this.state.width - 145: this.state.width - 215}}>
-                    <p>Artyom Eroshchenko</p>
+                <div className='myName'>
+                    <p>Artyom {(this.state.width <= 450) ? <br/>: ''}Eroshchenko</p>
                 </div>
             </>
         );

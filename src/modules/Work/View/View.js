@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import Carousel from './Carousel';
 import ViewElem from './ViewElem';
 
+import '../../../static/css/Work/View.css';
+import '../../../static/css/Work/preloader.css';
+
 export default class View extends Component{
 
     constructor(props){
@@ -45,21 +48,16 @@ export default class View extends Component{
     }
 
     setClose(){
-        document.querySelector('.preview').style = 'height: ' + document.querySelector('.preview').clientHeight + 'px;';
-        setTimeout(() => {
-            document.querySelector('.preview').style = 'transition: height 0.7s; height: 0px;'
-        }, 10);
+        document.querySelector('.preview').style = 'height: 0; opacity: 0; overflow: hidden;';
         setTimeout(() => {
             this.setState((state, props) => ({view: 'none'}));
-            document.querySelector('.preview').style = '';
-        }, 700);
+            document.querySelector('.preview').className = 'preview';
+        }, 800);
     }
 
     getWork(id){
-        document.querySelector('.preview').classList.remove('up');
         if(this.state.loadedFull[id] === undefined){
             this.setState((state, props) => ({view: 'preloader'}), () => {
-                document.querySelector('.preview').classList.add('up');
                 setTimeout(() => {
                     document.querySelector('.preview').scrollIntoView({
                         behavior: 'smooth'
@@ -76,13 +74,12 @@ export default class View extends Component{
                             })).then(() => {
                                 document.querySelector('.preview').style = 'opacity: 0.4;';
                                 setTimeout(() => {
-                                    document.querySelector('.preview').classList.remove('up');
                                     this.setState((state, props) => {
                                         state.view = id;
                                         state.loadedFull[id] = data;
                                         return state;
                                     }, () => {
-                                        document.querySelector('.preview').style = 'opacity: 1;';
+                                        document.querySelector('.preview').style = 'height: ' + (document.querySelector('.preview').clientHeight) + 'px; opacity: 1;';
                                     });
                                 }, 500);
                             });
@@ -107,7 +104,7 @@ export default class View extends Component{
                 }, 100);
                 document.querySelector('.preview').style = 'transition: opacity 0s; opacity: 0.4;';
                 setTimeout(() => {
-                    document.querySelector('.preview').style = 'opacity: 1;';
+                    document.querySelector('.preview').style = 'height: ' + (document.querySelector('.preview').clientHeight) + 'px; opacity: 1;';
                 }, 100);
             } else{
                 setTimeout(() => {
@@ -120,7 +117,7 @@ export default class View extends Component{
                     this.setState((state, props) => ({view: id}), () => {
                         document.querySelector('.carousel .inner').style = 'transition: all 0s;';
                     });
-                    document.querySelector('.preview').style = 'opacity: 1;';
+                    document.querySelector('.preview').style = 'height: ' + (document.querySelector('.preview').clientHeight) + 'px; opacity: 1;';
                     setTimeout(() => {
                         document.querySelector('.carousel .inner').style = '';
                     }, 10);
@@ -215,14 +212,12 @@ export default class View extends Component{
         if(typeof(this.state.view) == 'number'){
             v = (
             <div className='preview'>
-                <div>
+                <div className='center'>
+                    <a className='close' onClick={this.setClose}>close</a>
                     <div className='leftBtn'>
                         <a onClick={() => {this.getPrevWork(this.state.view)}}>previous project</a>
                     </div>
-                    <div className='center'>
-                        <a className='close' onClick={this.setClose}>close</a>
-                        <Carousel img={this.state.loadedFull[this.state.view].img} baseUrl={this.baseUrl}/>
-                    </div>
+                    <Carousel img={this.state.loadedFull[this.state.view].img} baseUrl={this.baseUrl}/>
                     <div className='rightBtn'>
                         <a onClick={() => {this.getNextWork(this.state.view)}}>next project</a>
                     </div>
@@ -244,7 +239,15 @@ export default class View extends Component{
                             </li>
                         </ul>
                         <div className='description'>
-                            <p><a href='#' className='ref'>Link</a> {this.state.loadedFull[this.state.view].description.text}</p>
+                            <p>{this.state.loadedFull[this.state.view].description.text}</p>
+                            <a href='#' className='ref PrjLink'>Link to GitHub</a>
+                            <div className='link'>
+                                <p>
+                                    <a className='share' href='#'>
+                                        <span data-hover="Copied!">Click to copy sharelink</span>
+                                    </a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
