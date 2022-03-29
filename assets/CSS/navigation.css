@@ -1,0 +1,149 @@
+@font-face{
+	font-family: freight-medium;
+	src: url("../Fonts/freight/Freight_Disp_Light.otf") format("opentype");
+}
+
+@font-face{
+	font-family: proximaLight;
+	src: url("../Fonts/proximaNova/ProximaNova-Light.otf") format("opentype");
+}
+
+.nav.active{
+	width: 100%;
+	height: 100vh;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background-color: rgba(255, 255, 255, 0.8);
+	z-index: 1001;
+	transition: .5s;
+}
+.nav.active .out{
+	width: 100%;
+	height: 40vh;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.nav.active.close{
+	opacity: 0;
+}
+.nav.active.open{
+	opacity: 1;
+}
+
+.nav.active .topNav{
+	padding-top: 3%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 57vh;
+	background-color: white;
+	display: flex;
+	transition: .5s;
+}
+
+.nav.active.close .topNav{
+	height: 0;
+}
+
+.nav.active.close .topNav *{
+	transition: opacity .5s;
+	opacity: 0;
+}
+.nav.active.close .topNav .meWrap{
+	height: 0;
+	transition: 1s;
+}
+
+.nav.active .topNav .meWrap{
+	margin-left: 20%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+.nav.active .topNav .me{
+	height: auto;
+}
+.nav.active .topNav .me span{
+	color: grey;
+	font-family: proximaLight, sans-serif;
+}
+.nav.active .topNav .me span h2{
+	font-weight: 100;
+	font-family: freight-medium, serif;
+	letter-spacing: 1px;
+	color: black;
+}
+
+.nav.active .topNav .me .contacts{
+	margin-top: 12vh;
+	position: relative;
+}
+
+.nav.active .topNav .me .contacts li:nth-child(1) a{
+	position: absolute;
+	transition: opacity .5s;
+	width: 100%;
+}
+
+.nav.active .topNav .me .contacts li{
+	list-style-type: none;
+	margin-top: 20px;
+	height: 20px;
+}
+.nav.active .topNav .me .contacts li a{
+	text-decoration: none;
+	color: black;
+	font-family: proximaLight;
+	transition: .5s;
+	cursor: pointer;
+}
+.nav.active .topNav .me .contacts li a:hover{
+	color: var(--linkColor);
+}
+
+.nav.active .shortInfo{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 400px;
+	height: 100%;
+	margin-left: 40vh;
+}
+.nav.active .shortInfo h2{
+	margin-bottom: 6vh;
+	font-family: proximaLight, sans-serif;
+	font-weight: 100;
+	line-height: 35px;
+}
+.nav.active .shortInfo span{
+	font-family: freight-medium, serif;
+	font-size: 20pt;
+	color: var(--linkColor);
+}
+
+.nav.active .topNav .close{
+	position: absolute;
+	right: 12.5%;
+	cursor: pointer;
+}
+.nav.active .topNav .close *{
+	transition: color .5s, stroke .2s;
+}
+.nav.active .topNav .close:hover *{
+	color: var(--linkColor);
+	stroke: var(--linkColor);
+}
+.nav.active .topNav .close svg{
+	width: 8px;
+	height: 8px;
+}
+.nav.active .topNav .close span{
+	font-family: freight-medium, serif;
+	padding-left: 5px;
+	font-size: 13pt;
+}

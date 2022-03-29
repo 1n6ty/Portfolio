@@ -73,8 +73,6 @@ section.work{
     position: relative;
     margin-top: 1.5625rem;
     padding: 0 15px;
-    display: grid;
-    column-gap: 30px;
 }
 .work .works a{
     margin-top: 1.25rem;
@@ -175,10 +173,11 @@ section.work{
 
     .work .works{
         margin-top: 2.1875rem;
-        grid-template-columns: 1fr 1fr 1fr;
     }
     .work .works a{
         margin-top: 1.875rem;
+        padding: 0 15px;
+        width: 33%;
     }
 
     .work .contact{

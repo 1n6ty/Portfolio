@@ -12,15 +12,17 @@ export default class Work extends Component{
         this.state = {
             currentFilt: 'all',
             filts: [],
-            width: window.innerWidth
+            width: window.innerWidth,
         };
 
-        this.baseUrl = 'http://192.168.0.180:8000/';
+        this.baseUrl = 'http://192.168.1.107:8000/';
         this.frameId = '';
     }
 
     componentWillReceiveProps(){
-        this.setState((state, props) => ({width: props.widthL}));
+        this.setState((state, props) => ({
+            width: props.widthL
+        }));
     }
 
     componentDidMount(){
@@ -43,7 +45,7 @@ export default class Work extends Component{
     render(){
         let filts = [];
         this.state.filts.forEach((v, id) => {
-            filts.push(<>{(id == 0) ? '': ' /'} <a key={id} onClick={() => {this.filtHandler(id)}}><span className={(v == this.state.currentFilt) ? 'active': ''} data-hover={v}>{v}</span></a></>);
+            filts.push(<React.Fragment key={id}>{(id == 0) ? '': ' /'} <a onClick={() => {this.filtHandler(id)}}><span className={(v == this.state.currentFilt) ? 'active': ''} data-hover={v}>{v}</span></a> </React.Fragment>);
         });
 
         return (
@@ -66,7 +68,7 @@ export default class Work extends Component{
                             </div>
                             
                         </div>
-                        <View currentFilt={this.state.currentFilt} />
+                        <View currentFilt={this.state.currentFilt} workClick={this.props.workClick} aboutClick={this.props.aboutClick}/>
                         <div className='contact'>
                             <div>
                                 <h5>Do you want to contact me?</h5>

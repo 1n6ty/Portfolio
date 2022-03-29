@@ -5,8 +5,6 @@ import JS from '../../static/img/JS.svg';
 import cpp from '../../static/img/cpp.svg';
 import re from '../../static/img/react.svg';
 
-import Specs from '../Specs';
-
 export default class App extends Component{
     constructor(props){
         super(props);

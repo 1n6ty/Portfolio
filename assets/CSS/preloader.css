@@ -1,0 +1,46 @@
+.preloader .background{
+	background-color: white;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1002;
+}
+.preloader .sign{
+	justify-content: center;
+	width: 100%;
+	height: 13.5vh;
+	-webkit-transition: 2s;
+	z-index: 1002;
+}
+.preloader.close{
+	opacity: 0;
+}
+.preloader{
+	transition: 2s;
+}
+.preloader.close .sign{
+	transform: translateY(-10%);
+}
+
+.preloader.close .wrapCenter{
+	transform: translateY(-10%);
+}
+.preloader .wrapCenter{
+	height: 100vh;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1003;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	-webkit-transition: 1s;
+}
+.preloader .preloaderCenter{
+	height: 40vh;
+	width: 22%;
+	background-color: #c6829b;
+	-webkit-transition: 2s;
+	opacity: 0.6;
+}

@@ -6,7 +6,7 @@ import ViewElem from './ViewElem';
 import '../../../static/css/Work/View.css';
 import '../../../static/css/Work/preloader.css';
 
-export default class View extends Component{
+class View extends Component{
 
     constructor(props){
         super(props);
@@ -16,14 +16,15 @@ export default class View extends Component{
             loadingAddFlag: true,
             loadedWorks: [],
             loadedFull: {},
-            currentFilt: props.currentFilt
+            currentFilt: props.currentFilt,
+            workHistory: []
         };
 
         this.ids = {};
         this.allowFetchFlag = true;
         this.idsCopy = {};
         this.alreadyLoaded = [];
-        this.baseUrl = 'http://192.168.0.180:8000/';
+        this.baseUrl = 'http://192.168.1.107:8000/';
 
         this.getNextWork = this.getNextWork.bind(this);
         this.getPrevWork = this.getPrevWork.bind(this);
@@ -56,6 +57,7 @@ export default class View extends Component{
     }
 
     getWork(id){
+        window.history.pushState({workId: id, work: true}, '', '/?workId=' + id);
         if(this.state.loadedFull[id] === undefined){
             this.setState((state, props) => ({view: 'preloader'}), () => {
                 setTimeout(() => {
@@ -187,6 +189,16 @@ export default class View extends Component{
     }
 
     componentDidMount(){
+        window.addEventListener('popstate', (e) => {
+            if(window.history.state !== null){
+                if(window.history.state.work !== undefined){
+                    this.props.workClick();
+                }
+                if(window.history.state.workId !== undefined){
+                    this.getWork(parseInt(window.history.state.workId));
+                }
+            }
+        });
         fetch(this.baseUrl + 'work/category/')
         .then((response) => {
             if(response.ok){
@@ -195,6 +207,11 @@ export default class View extends Component{
                     this.ids = data.data;
                     this.idsCopy = data.data;
                     this.checkScroll();
+                    let workId = (new URL(window.location.href)).searchParams.get('workId');
+                    if(workId !== null){
+                        this.props.workClick();
+                        this.getWork(parseInt(workId));
+                    }
                 });
             } else{
                 this.setState((state, props) => ({loadingAddFlag: false}));
@@ -206,6 +223,16 @@ export default class View extends Component{
             console.error('Done!');
         });
     }
+
+    copyToClipboard(text){
+        document.querySelector('.link .share').className = 'share active'
+        let textField = document.createElement('textarea');
+        textField.innerText = text;
+        document.body.appendChild(textField);
+        textField.select();
+        document.execCommand('copy');
+        textField.remove();
+      }
 
     render(){
         let v = <div className='preview'></div>;
@@ -243,8 +270,8 @@ export default class View extends Component{
                             <a href='#' className='ref PrjLink'>Link to GitHub</a>
                             <div className='link'>
                                 <p>
-                                    <a className='share' href='#'>
-                                        <span data-hover="Copied!">Click to copy sharelink</span>
+                                    <a className='share' onClick={() => this.copyToClipboard(window.location.href)}>
+                                        <span data-hover="Copied!" >Click to copy sharelink</span>
                                     </a>
                                 </p>
                             </div>
@@ -286,3 +313,5 @@ export default class View extends Component{
     );
     }
 }
+
+export default View;

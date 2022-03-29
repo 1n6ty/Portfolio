@@ -1,0 +1,20 @@
+@import 'preloader.css';
+@import 'navigation.css';
+@import 'sign.css';
+@import 'header.css';
+@import 'background.css';
+@import 'content.css';
+
+@font-face{
+	font-family: freight-medium;
+	src: url("../Fonts/freight/Freight_Disp_Light.otf") format("opentype");
+}
+@font-face{
+	font-family: proximaLight;
+	src: url("../Fonts/proximaNova/ProximaNova-Light.otf") format("opentype");
+}
+
+*{
+	margin: 0;
+	padding: 0;
+}

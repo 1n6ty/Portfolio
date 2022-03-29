@@ -1,0 +1,207 @@
+.about .aboutText {
+    margin-top: 2.8125rem;
+}
+.about .content .wp{
+    width: 100%;
+}
+.about .content .wrapAbout{
+    display: flex;
+    justify-content: center;
+}
+.about .content .wrapAbout > div{
+    width: 50%;
+}
+
+.about .aboutFull{
+    background-color: #E0FFFD;
+    padding-top: 5.625rem;
+    padding-bottom: 5.625rem;
+    margin-top: 5.625rem;
+    display: flex;
+    justify-content: center;
+}
+
+.about .content h5{
+    font-family: "Karla", "Helvetica Neue", "Helvetica", sans-serif;
+    font-weight: 100;
+    font-size: 0.875rem;
+    color: #979797;
+    line-height: 0.5;
+}    
+
+.about .content .aboutText p{
+    margin-top: 0;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.about .content .dev{
+    margin-top: 2.8125rem;
+    width: 540px;
+}
+
+.about .content .dev ul{
+    padding: 0;
+    margin: 0;
+}
+
+.about .content .dev li{
+    margin-bottom: 0.625rem;
+    list-style-type: none;
+}
+
+.about .wrapFull{
+    padding: 15px;
+    max-width: 50%;
+}
+
+.about .wrapFull .langs{
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 1.25rem;
+}
+
+.about .wrapFull .langs div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7rem;
+}
+
+.about .wrapFull .langs div img{
+    width: 5.5rem;
+    opacity: 0.5;
+}
+
+.about .contact{
+    display: flex;
+    justify-content: center;
+    margin-top: 2.8125rem;
+    margin-bottom: 6.25rem;
+}
+.about .contact a{
+    padding: 0.625rem 0;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 100% 0.09375rem;
+    background-position: center bottom 29%;
+    background-origin: padding-box;
+    text-shadow: 0.1875rem 0 #fff, 0.125rem 0 #fff, 0.0625rem 0 #fff, -0.0625rem 0 #fff, -0.125rem 0 #fff, -0.1875rem 0 #fff;
+}
+.about .contact a:hover{
+    opacity: 0.5;
+}
+
+@media (min-width: 320px){
+    .about .aboutFull{
+        margin-top: 2.5625rem;
+        padding-top: 1.1625rem;
+        padding-bottom: 1.1625rem;
+    }
+    .about .content{
+        margin-top: 1rem;
+    }
+    .about .content .wrapAbout > div{
+        width: 80%;
+    }
+    .about .wrapFull{
+        max-width: 80%;
+    }
+}
+
+@media (min-width: 576px){
+    .about .wrapFull{
+        max-width: 80%;
+    }
+    .about .content{
+        width: 540px;
+        max-width: 100%;
+        margin-top: 1rem;
+    }
+    .about .aboutFull{
+        padding-top: 1.1625rem;
+        padding-bottom: 1.1625rem;
+    }
+    .about .wrapFull .langs{
+        grid-template-columns: 1fr;
+    }
+    .about .content .wrapAbout > div{
+        width: 80%;
+    }
+}
+
+@media (min-width: 768px){
+    .about .wrapFull{
+        max-width: 70%;
+    }
+    .about .content{
+        width: 720px;
+        max-width: 100%;
+    }
+    .about .content .dev ul{
+        margin-top: 1.5rem;
+    }
+    .about .aboutFull{
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        margin-top: 2.1825rem;
+    }
+    .about .wrapFull .langs{
+        grid-template-columns: 1fr;
+    }
+    .about .contact{
+        margin-top: 2.1825rem;
+        width: 720px;
+        margin-bottom: 6rem;
+    }
+    .about .content .wrapAbout > div{
+        width: 70%;
+    }
+}
+
+@media (min-width: 992px){
+    .about .content {
+        width: 960px;
+        max-width: 100%;
+    }
+    .about .aboutFull{
+        padding-top: 2.125rem;
+        padding-bottom: 2.125rem;
+        margin-top: 3.1825rem;
+    }
+    .about .content .dev{
+        margin-top: 3.1825rem;
+    }
+    .about .content .dev ul{
+        margin-top: 1.5rem;
+    }
+    .about .wrapFull .langs{
+        grid-template-columns: 1fr 1fr;
+    }
+    .about .contact{
+        width: 960px;
+        margin-bottom: 6rem;
+    }
+    .about .content .wrapAbout > div{
+        width: 60%;
+    }
+    .about .wrapFull{
+        max-width: 60%;
+    }
+}
+
+@media (min-width: 1200px){
+    .about .content {
+        width: 1140px;
+        max-width: 100%;
+    }
+    .about .contact{
+        width: 1140px;
+    }
+    .about .content .wrapAbout > div{
+        width: 50%;
+    }
+    .about .wrapFull{
+        max-width: 50%;
+    }
+}

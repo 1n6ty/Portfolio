@@ -1,0 +1,12 @@
+@import 'preloader.css';
+@import 'header.css';
+@import 'background.css';
+@import 'navigation.css';
+@import 'sign.css';
+@import 'shortCut.css';
+@import 'contentBlock.css';
+
+*{
+	margin: 0;
+	padding: 0;
+}

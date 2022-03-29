@@ -1,0 +1,53 @@
+@font-face{
+	font-family: freight-medium;
+	src: url("../Fonts/freight/Freight_Disp_Light.otf") format("opentype");
+}
+
+.sign{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 16%;
+	height: 13.5vh;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	float: left;
+	font-family: freight-medium, serif;
+}
+.sign *{
+	letter-spacing: 1px;
+	font-size: 14pt;
+	font-weight: 100;
+	opacity: 0.4;
+	cursor: pointer;
+	transition: .5s;
+	text-decoration: none;
+	color: black;
+}
+.sign *:hover{
+	opacity: 0.9;
+}
+
+.sign-right{
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 15%;
+	height: 13.5vh;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.sign-right h5{
+	letter-spacing: 1px;
+	font-size: 14pt;
+	font-weight: 100;
+	font-family: freight-medium, serif;
+	opacity: 0.4;
+	cursor: pointer;
+	transition: .5s;
+}
+.sign-right h5:hover{
+	opacity: 0.9;
+}

@@ -11,15 +11,17 @@ class App extends Component {
 
     this.state = {
       width: window.innerWidth,
-      loadWidth: 0
+      loadWidth: 0,
     };
 
     this.resize = this.resize.bind(this);
   }
 
   componentDidMount(){
-    window.addEventListener('load', () => {console.log('done')});
-    if (!this.frameId) {
+    window.addEventListener('load', () => {
+      console.log('done')
+    });
+    if(!this.frameId){
       this.frameId = requestAnimationFrame(this.resize);
     }
   }
@@ -41,6 +43,7 @@ class App extends Component {
   workClick(){
     document.querySelector('section.main').className = 'main up';
     document.querySelector('section.work').className = 'work active';
+    this.closeAboutClick();
   }
 
   closeWorkClick(){
@@ -51,6 +54,7 @@ class App extends Component {
   aboutClick(){
     document.querySelector('section.main').className = 'main down';
     document.querySelector('section.about').className = 'about active';
+    this.closeWorkClick();
   }
 
   closeAboutClick(){
@@ -74,7 +78,7 @@ class App extends Component {
       <>
         <Main aboutClick={this.aboutClick.bind(this)} workClick={this.workClick.bind(this)} widthL={this.state.width} setLoader={this.setLoader.bind(this)} setDoneLoading={this.setDoneLoading.bind(this)}/>
         <PreloaderMain widthLoad={this.state.loadWidth}/>
-        <Work closeWorkClick={this.closeWorkClick.bind(this)} widthL={this.state.width}/>
+        <Work closeWorkClick={this.closeWorkClick.bind(this)} widthL={this.state.width} workClick={this.workClick.bind(this)} aboutClick={this.aboutClick.bind(this)}/>
         <About closeAboutClick={this.closeAboutClick.bind(this)} widthL={this.state.width}/>
       </>
     )

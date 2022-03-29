@@ -99,7 +99,7 @@
 .work .preview .subscription .description .link span:hover{
     transform: none;
 }
-.work .preview .subscription .description .link p a:focus span{
+.work .preview .subscription .description .link p a.active span{
     transform: translate3d(0, -200%, 0);
 }
 .work .preview .PrjLink{

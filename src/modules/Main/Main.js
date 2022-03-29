@@ -31,7 +31,7 @@ class Main extends Component {
     this.height = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
   }
 
-  componentDidMount() {
+  componentDidMount(){
     this.resizeCanvas();
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
