@@ -12,17 +12,32 @@ export default class Carousel extends Component{
         this.slideRight = this.slideRight.bind(this);
         this.slideLeft = this.slideLeft.bind(this);
         this.dotClick = this.dotClick.bind(this);
+
+        this.xDown = null;
+        this.workId = props.workId;
         
         this.state = {
             curSlide: 0,
             maxSlides: props.img.length,
-            img: props.img
+            img: props.img,
+            xDiff: 0,
         };
     }
 
     componentWillReceiveProps(){
-        this.setState((state, props) => ({maxSlides: props.img.length, img: props.img, curSlide: 0}));
-        this.changeDots(0);
+        let prevFlag = false;
+        this.setState((state, props) => {
+            if(this.workId != '' && props.workId != '' && this.workId != props.workId){
+                prevFlag = true;
+                state.maxSlides = props.img.length;
+                state.img = props.img;
+                state.curSlide = 0;
+                this.workId = this.props.workId;
+            }
+            return state;
+        }, () => {
+            if(prevFlag) this.changeDots(0);
+        });
     }
 
     slideRight(){
@@ -54,6 +69,26 @@ export default class Carousel extends Component{
         this.changeDots(value);
     }
 
+    handleTouchStart(e){
+        this.xDown = e.touches[0].clientX;
+        document.getElementsByClassName('inner')[0].style = `transition: none; transform: translateX(-${this.state.curSlide * 100 + this.state.xDiff}%)`;
+    }
+
+    handleTouchMove(e){
+        this.setState((state, props) => ({xDiff: 100 * (this.xDown - e.touches[0].clientX) / e.target.clientWidth}));
+    }
+
+    handleTouchEnd(e){
+        if(this.state.xDiff >= 20){
+            this.slideRight();
+        }
+        if(this.state.xDiff <= -20){
+            this.slideLeft();
+        }
+        this.setState((state, props) => ({xDiff: 0}));
+        document.getElementsByClassName('inner')[0].style = `transform: translateX(-${this.state.curSlide * 100 + this.state.xDiff}`;
+    }
+
     render(){
         let dots = [];
         for(let i = 0; i < this.state.maxSlides - 1; i++){
@@ -67,7 +102,7 @@ export default class Carousel extends Component{
         }
 
         return (
-            <div className='carousel'>
+            <div className='carousel' onTouchMove={(e) => this.handleTouchMove(e)} onTouchStart={(e) => this.handleTouchStart(e)} onTouchEnd={(e) => this.handleTouchEnd(e)}>
                 <div className='control'>
                     <a onClick={this.slideLeft} className="prevBtn"><img src={left}/></a>
                     <a onClick={this.slideRight} className="nextBtn"><img src={right}/></a>
@@ -76,7 +111,7 @@ export default class Carousel extends Component{
                         {dots}
                     </ul>
                 </div>
-                <div className='inner' style={{transform: 'translateX(-' + this.state.curSlide + '00%)'}}>
+                <div className='inner' style={{transform: 'translateX(-' + (this.state.curSlide * 100 + this.state.xDiff) + '%)'}}>
                     {v}
                 </div>
             </div>

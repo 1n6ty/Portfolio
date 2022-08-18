@@ -4,7 +4,7 @@ import Carousel from './Carousel';
 import ViewElem from './ViewElem';
 
 import '../../../static/css/Work/View.css';
-import '../../../static/css/Work/preloader.css';
+import '../../../static/css/common/preloader.css';
 
 class View extends Component{
 
@@ -13,155 +13,177 @@ class View extends Component{
 
         this.state = {
             view: 'none',
-            loadingAddFlag: true,
-            loadedWorks: [],
-            loadedFull: {},
-            currentFilt: props.currentFilt,
-            workHistory: []
+            loadedViews: [],
+            loadedWorks: {},
+            currentFilt: props.currentFilt
         };
 
-        this.ids = {};
-        this.allowFetchFlag = true;
-        this.idsCopy = {};
-        this.alreadyLoaded = [];
-        this.baseUrl = 'http://192.168.1.107:8000/';
+        this.idsToLoad = {};
+        this.baseUrl = 'http://192.168.0.180:8000/';
+        this.prevHash = window.location.hash;
 
-        this.getNextWork = this.getNextWork.bind(this);
-        this.getPrevWork = this.getPrevWork.bind(this);
+        this.preloader = (
+            <div className="cssload-container">
+                <ul className="cssload-flex-container">
+                    <li>
+                        <span className="cssload-loading cssload-one"></span>
+                        <span className="cssload-loading cssload-two"></span>
+                        <span className="cssload-loading-center"></span>
+                    </li>
+                </ul>
+            </div>
+        );
+
         this.setClose = this.setClose.bind(this);
         this.getWork = this.getWork.bind(this);
     }
 
     componentWillReceiveProps(){
-        this.setState((state, props) => ({currentFilt: props.currentFilt}), this.setWorks);
+        let prevFilt = this.state.currentFilt;
+        this.setState((state, props) => {
+            state.currentFilt = props.currentFilt;
+            return state;
+        }, () => {
+            if(prevFilt != this.state.currentFilt){
+                this.getViews();
+            }
+        });
     }
 
-    setWorks(){
-        if(this.ids[this.state.currentFilt] !== undefined){
-            this.ids[this.state.currentFilt] = this.ids[this.state.currentFilt].map(v => {
-                if(this.alreadyLoaded.filter(f => f == v).length != 0){
-                    return undefined;
-                } 
-                return v;
-            }).filter(v => v !== undefined);
-            this.checkScroll();
+    componentDidUpdate(){
+        if(this.prevHash != this.props.hash){
+            this.checkHash();
+            this.prevHash = this.props.hash;
+        }
+        this.getViews();
+        if(!(/work/.test(window.location.hash)) && this.state.view != 'none'){
+            document.querySelector('.preview').style = 'height: ' + document.querySelector('.preview').clientHeight + 'px; opacity: 1;';
+            setTimeout(() => {
+                document.querySelector('.preview').style = 'height: 0; opacity: 0; overflow: hidden;';
+                setTimeout(() => {
+                    document.querySelector('.preview').style = 'overflow: hidden; opacity: 0.4;';
+                    this.setState((state, props) => ({view: 'none'}));
+                }, 800);
+            }, 10)
         }
     }
 
     setClose(){
-        document.querySelector('.preview').style = 'height: 0; opacity: 0; overflow: hidden;';
+        window.location.hash = '#work'
+        document.querySelector('.preview').style = 'height: ' + document.querySelector('.preview').clientHeight + 'px; opacity: 1;';
         setTimeout(() => {
-            this.setState((state, props) => ({view: 'none'}));
-            document.querySelector('.preview').className = 'preview';
-        }, 800);
-    }
-
-    getWork(id){
-        window.history.pushState({workId: id, work: true}, '', '/?workId=' + id);
-        if(this.state.loadedFull[id] === undefined){
-            this.setState((state, props) => ({view: 'preloader'}), () => {
-                setTimeout(() => {
-                    document.querySelector('.preview').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }, 100);
-                fetch(this.baseUrl + 'work/data/' + id)
-                .then((response) => {
-                    if(response.ok){
-                        response.json()
-                        .then((data) => {
-                            Promise.all(data.img.map((v) => {
-                                let img = new Image();
-                                return new Promise(r => img.onload=r, img.src=v);
-                            })).then(() => {
-                                document.querySelector('.preview').style = 'opacity: 0.4;';
-                                setTimeout(() => {
-                                    this.setState((state, props) => {
-                                        state.view = id;
-                                        state.loadedFull[id] = data;
-                                        return state;
-                                    }, () => {
-                                        document.querySelector('.preview').style = 'height: ' + (document.querySelector('.preview').clientHeight) + 'px; opacity: 1;';
-                                    });
-                                }, 500);
-                            });
-                        });
-                    } else{
-                        this.setState((state, props) => ({view: 'preloader'}));
-                        console.error('Done!');
-                    }
-                })
-                .catch(rejected => {
-                    this.setState((state, props) => ({view: 'preloader'}));
-                    console.error('Done!');
-                });
-            });
-        } else{
-            if(this.state.view == 'none'){
-                this.setState((state, props) => ({view: id}));
-                setTimeout(() => {
-                    document.querySelector('.preview').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }, 100);
-                document.querySelector('.preview').style = 'transition: opacity 0s; opacity: 0.4;';
-                setTimeout(() => {
-                    document.querySelector('.preview').style = 'height: ' + (document.querySelector('.preview').clientHeight) + 'px; opacity: 1;';
-                }, 100);
-            } else{
-                setTimeout(() => {
-                    document.querySelector('.preview').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }, 100);
-                document.querySelector('.preview').style = 'opacity: 0.4;';
-                setTimeout(() => {
-                    this.setState((state, props) => ({view: id}), () => {
-                        document.querySelector('.carousel .inner').style = 'transition: all 0s;';
-                    });
-                    document.querySelector('.preview').style = 'height: ' + (document.querySelector('.preview').clientHeight) + 'px; opacity: 1;';
-                    setTimeout(() => {
-                        document.querySelector('.carousel .inner').style = '';
-                    }, 10);
-                }, 500);
-            }
-        }
-    }
-
-    getNextWork(id){
-        for(let i = id + 1; i < this.state.loadedWorks.length; i++){
-            if(this.state.loadedWorks[i].data.genre == this.state.currentFilt || this.state.currentFilt == 'all'){
-                this.getWork(i);
-                break;
-            }
-        }
+            document.querySelector('.preview').style = 'height: 0; opacity: 0; overflow: hidden;';
+            setTimeout(() => {
+                document.querySelector('.preview').style = 'overflow: hidden; opacity: 0.4;';
+                this.setState((state, props) => ({view: 'none'}));
+                this.getViews();
+            }, 800);
+        }, 10)
     }
 
     getPrevWork(id){
-        for(let i = id - 1; i >= 0; i--){
-            if(this.state.loadedWorks[i].data.genre == this.state.currentFilt || this.state.currentFilt == 'all'){
-                this.getWork(i);
+        let t = [];
+        let arr = this.state.loadedViews.filter(e => e.data.genre == this.state.currentFilt || this.state.currentFilt == 'all').map(e => e.id);
+        for(let i = 0; i <= arr.length; i++){
+            if(arr[i] == id){
+                t.push(arr[i - 1]);
                 break;
             }
         }
+        for(let i = 0; i <= this.idsToLoad[this.state.currentFilt].length; i++){
+            if(this.idsToLoad[this.state.currentFilt][i] == id){
+                t.push(this.idsToLoad[this.state.currentFilt][i - 1]);
+                break;
+            }
+        }
+        t = t.filter(e => e !== undefined);
+        if(t.length > 0) this.getWork(Math.min(...t));
     }
 
-    checkScroll(){
-        if(this.ids[this.state.currentFilt] !== undefined && this.alreadyLoaded.filter((v) => v == this.ids[this.state.currentFilt][0]).length == 0 && this.allowFetchFlag && window.innerHeight + window.scrollY > document.body.scrollHeight - window.innerHeight * 0.8){
-            this.getViews();
+    getNextWork(id){
+        let arr = this.state.loadedViews.filter(e => e.data.genre == this.state.currentFilt || this.state.currentFilt == 'all').map(e => e.id);
+        let t = [arr.find(e => e < id), this.idsToLoad[this.state.currentFilt].find(e => e < id)].filter(e => e !== undefined);
+        if(t.length > 0){
+            this.getWork(Math.max(...t));
         }
-        if(this.ids[this.state.currentFilt] !== undefined && this.ids[this.state.currentFilt].length != 0){
-            requestAnimationFrame(this.checkScroll.bind(this));
+    }
+
+    getWork(id){
+        if(window.location.hash != ("#work_" + id)) window.location.hash = "#work_" + id;
+        document.querySelector('.preview').style = 'transition: opacity 0s; opacity: 0.4;';
+        this.setState((state, props) => ({
+            view: 'load'
+        }), () => {
+            setTimeout(() => {
+                document.querySelector('.preview').style = 'opacity: 1';
+                document.querySelector('section.work .preview').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }, 50);
+        });
+        if(this.state.loadedWorks[id] === undefined){
+            fetch(this.baseUrl + 'work/data/' + id)
+            .then((response) => {
+                if(response.ok){
+                    response.json()
+                    .then((data) => {
+                        Promise.all(data.img.map((v) => {
+                            let img = new Image();
+                            return new Promise(r => img.onload=r, img.src=v);
+                        })).then(() => {
+                            document.querySelector('.preview').style = 'opacity: 0.4;';
+                            setTimeout(() => {
+                                this.setState((state, props) => {
+                                    state.loadedWorks[id] = data;
+                                    state.view = id;
+                                    return state;
+                                }, () => {
+                                    setTimeout(() => {
+                                        document.querySelector('.preview').style = 'opacity: 1';
+                                    }, 50);
+                                });
+                            }, 500);
+                        });
+                    });
+                } else{
+                    console.error('Server error');
+                }
+            })
+            .catch(rejected => {
+                console.error('Fetch error');
+            });
+        } else{
+            this.setState((state, props) => ({
+                view: id
+            }), () => {
+                setTimeout(() => {
+                    document.querySelector('.preview').style = 'opacity: 1';
+                }, 50);
+            });
         }
     }
 
     getViews(){
-        if(this.ids[this.state.currentFilt].length != 0){
-            this.allowFetchFlag = false;
-            this.setState((state, props) => ({loadingAddFlag: true}));
-            let v = this.ids[this.state.currentFilt].shift();
-            this.alreadyLoaded.push(v);
-
+        let viewsRect = document.querySelector('section.work .works'),
+            worksWindow = document.querySelector('section.work');
+        if(this.idsToLoad[this.state.currentFilt] && this.idsToLoad[this.state.currentFilt].length != 0 && viewsRect.clientHeight < worksWindow.scrollTop + window.innerHeight){
+            let v = this.idsToLoad[this.state.currentFilt].shift();
+            for(const [key, value] of Object.entries(this.idsToLoad)){
+                this.idsToLoad[key] = value.filter(e => e != v);
+            }
+            this.setState((state, props) => {
+                let loadedvt = [...state.loadedViews, {
+                    data: (
+                        <a className='viewsPreloader'>
+                            {this.preloader}
+                        </a>
+                    ),
+                    loaded: false,
+                    id: v
+                }];
+                loadedvt.sort((a, b) => b.id - a.id);
+                return {loadedViews: loadedvt};
+            });
             fetch(this.baseUrl + 'work/short/' + v)
             .then((response) => {
                 if(response.ok){
@@ -170,12 +192,15 @@ class View extends Component{
                         const img = new Image();
                         img.src = this.baseUrl + 'work/img/' + v;
                         img.onload = () => {
-                            this.setState((state, props) => ({loadedWorks: [...state.loadedWorks, {data: vData, img: img.src, id: v}]}), () => {
-                                this.allowFetchFlag = true;
+                            this.setState((state, props) => {
+                                state.loadedViews = state.loadedViews.map((e) => {
+                                    if(e.id == v){
+                                        return {data: vData, img: img.src, id: v, loaded: true};
+                                    }
+                                    return e;
+                                });
+                                return state;
                             });
-                            if(this.ids[this.state.currentFilt].length == 0){
-                                this.setState((state, props) => ({loadingAddFlag: false}));
-                            }
                         }
                     });
                 } else{
@@ -188,39 +213,36 @@ class View extends Component{
         }
     }
 
+    checkHash(){
+        let e = this.props.hash.match(/[0-9]*/g);
+        if(e !== null){
+            e.forEach((v) => {
+                if(v != ''){
+                    this.getWork(parseInt(v));
+                }
+            })
+        }
+    }
+
     componentDidMount(){
-        window.addEventListener('popstate', (e) => {
-            if(window.history.state !== null){
-                if(window.history.state.work !== undefined){
-                    this.props.workClick();
-                }
-                if(window.history.state.workId !== undefined){
-                    this.getWork(parseInt(window.history.state.workId));
-                }
-            }
-        });
         fetch(this.baseUrl + 'work/category/')
         .then((response) => {
             if(response.ok){
                 response.json()
                 .then((data) => {
-                    this.ids = data.data;
-                    this.idsCopy = data.data;
-                    this.checkScroll();
-                    let workId = (new URL(window.location.href)).searchParams.get('workId');
-                    if(workId !== null){
-                        this.props.workClick();
-                        this.getWork(parseInt(workId));
-                    }
+                    this.idsToLoad = data.data;
+                    document.querySelector('section.work').addEventListener('scroll', () => {
+                        this.getViews();
+                    });
+                    this.props.popLoad();
+                    this.checkHash();
                 });
             } else{
-                this.setState((state, props) => ({loadingAddFlag: false}));
-                console.error('Done!');
+                console.error('Server error');
             }
         })
         .catch(rejected => {
-            this.setState((state, props) => ({loadingAddFlag: false}));
-            console.error('Done!');
+            console.error('Fetch error');
         });
     }
 
@@ -232,85 +254,81 @@ class View extends Component{
         textField.select();
         document.execCommand('copy');
         textField.remove();
-      }
+    }
 
     render(){
-        let v = <div className='preview'></div>;
-        if(typeof(this.state.view) == 'number'){
-            v = (
-            <div className='preview'>
-                <div className='center'>
-                    <a className='close' onClick={this.setClose}>close</a>
-                    <div className='leftBtn'>
-                        <a onClick={() => {this.getPrevWork(this.state.view)}}>previous project</a>
-                    </div>
-                    <Carousel img={this.state.loadedFull[this.state.view].img} baseUrl={this.baseUrl}/>
-                    <div className='rightBtn'>
-                        <a onClick={() => {this.getNextWork(this.state.view)}}>next project</a>
+        let viewBody = (<div className='preview' style={{overflow: 'hidden', opacity: 0.4}}></div>);
+        if(this.state.view == 'load'){
+            viewBody = (
+                <div className='preview' style={{overflow: 'hidden', opacity: 0.4}}>
+                    <div className='workPreloader'>
+                        {this.preloader}
                     </div>
                 </div>
-                <div className='subscription'>
-                    <div>
-                        <ul className='short'>
-                            <li>
-                                <h4>{this.state.loadedFull[this.state.view].short.title}</h4>
-                                <small>{this.state.loadedFull[this.state.view].short.genre}</small>
-                            </li>
-                            <li>
-                                <p>Client</p>
-                                <p>{this.state.loadedFull[this.state.view].short.client}</p>
-                            </li>
-                            <li>
-                                <p>Role</p>
-                                <p>{this.state.loadedFull[this.state.view].short.role}</p>
-                            </li>
-                        </ul>
-                        <div className='description'>
-                            <p>{this.state.loadedFull[this.state.view].description.text}</p>
-                            <a href='#' className='ref PrjLink'>Link to GitHub</a>
-                            <div className='link'>
-                                <p>
-                                    <a className='share' onClick={() => this.copyToClipboard(window.location.href)}>
-                                        <span data-hover="Copied!" >Click to copy sharelink</span>
-                                    </a>
-                                </p>
+            );
+        }
+        if(typeof(this.state.view) == 'number'){
+            viewBody = (
+                <div className='preview' style={{overflow: 'hidden', opacity: 0.4}}>
+                    <div className='center'>
+                        <a className='close' onClick={this.setClose}>close</a>
+                        <div className='leftBtn'>
+                            <a onClick={() => {this.getPrevWork(this.state.view)}}>previous project</a>
+                        </div>
+                        <Carousel img={this.state.loadedWorks[this.state.view].img} baseUrl={this.baseUrl} key={0} workId={window.location.hash.substring(1)} />
+                        <div className='rightBtn'>
+                            <a onClick={() => {this.getNextWork(this.state.view)}}>next project</a>
+                        </div>
+                    </div>
+                    <div className='subscription'>
+                        <div>
+                            <ul className='short'>
+                                <li>
+                                    <h4>{this.state.loadedWorks[this.state.view].short.title}</h4>
+                                    <small>{this.state.loadedWorks[this.state.view].short.genre}</small>
+                                </li>
+                                <li>
+                                    <p>Client</p>
+                                    <p>{this.state.loadedWorks[this.state.view].short.client}</p>
+                                </li>
+                                <li>
+                                    <p>Role</p>
+                                    <p>{this.state.loadedWorks[this.state.view].short.role}</p>
+                                </li>
+                            </ul>
+                            <div className='description'>
+                                <p>{this.state.loadedWorks[this.state.view].description.text}</p>
+                                <a href='#' className='ref PrjLink'>Link to GitHub</a>
+                                <div className='link'>
+                                    <p>
+                                        <a className='share' onClick={() => this.copyToClipboard(window.location.href)}>
+                                            <span data-hover="Copied!" >Click to copy sharelink</span>
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
-            } else if(this.state.view == 'preloader'){
-                v = (<div className='preview'>
-                    <div className='workPreloader'>
-                        <div className="loadingio-spinner-dual-ball-20eivi2zt7y"><div className="ldio-qm9ez7bosvn">
-                        <div></div><div></div><div></div>
-                        </div></div>
-                    </div>
-                </div>);
-            }
+            );
+        }
 
-            let views = [];
-            this.state.loadedWorks.forEach((v) => {
-                if(v.data.genre == this.state.currentFilt || this.state.currentFilt == 'all'){
-                    views.push(<ViewElem title={v.data.title} genre={v.data.genre} img={v.img} key={v.id} work={v.id} getWork={this.getWork}/>);
-                }
-            });
-
-            return (
-            <>{v}
-            <div className='works'>
-                {views}
-                {(this.state.loadingAddFlag) ? (
-            <div className='workPreloader'>
-                <div className="loadingio-spinner-dual-ball-20eivi2zt7y"><div className="ldio-qm9ez7bosvn">
-                <div></div><div></div><div></div>
-                </div></div>
-            </div>
-            ): <></> }
-            </div>
+        return (
+            <>
+                {viewBody}
+                <div className='works'>
+                    {this.state.loadedViews.map((v) => {
+                        if(v.loaded){
+                            if(v.data.genre == this.state.currentFilt || this.state.currentFilt == 'all'){
+                                return <ViewElem title={v.data.title} genre={v.data.genre} img={v.img} key={v.id} work={v.id} getWork={this.getWork}/>
+                            }
+                        } else{
+                            return <React.Fragment key={v.id}>{v.data}</React.Fragment>;
+                        }
+                    }).filter(e => e !== undefined)}
+                </div>
             </>
-    );
+        );
     }
 }
 

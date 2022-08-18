@@ -15,8 +15,48 @@ export default class App extends Component{
     }
 
     componentWillReceiveProps(){
-        this.setState((state, props) => ({width: props.widthL}));
+        this.setState((state, props) => ({width: props.widthL}), () => {
+            this.checkHash();
+        });
     }
+
+    checkHash(){
+        let e = this.props.hash.match(/aboutMe|work/g);
+        if(e !== null){
+            e.forEach((v, id) => {
+                if(v == 'aboutMe'){
+                    this.aboutClick();
+                }
+                if(v == 'work'){
+                    this.closeAboutClick();
+                }
+            })
+        } else{
+            this.closeAboutClick();
+        }
+    }
+
+    closeAboutClick(){
+        if(/aboutMe/.test(window.location.hash)) window.location.hash = '';
+        document.querySelector('section.main').style = '';
+        setTimeout(() => {
+            document.querySelector('section.main').className = 'main';
+            document.querySelector('section.about').className = 'about';
+        }, 10);
+    }
+
+    aboutClick(){
+        document.querySelector('section.about').style = '';
+        setTimeout(() => {
+          document.querySelector('section.main').className = 'main down';
+          document.querySelector('section.about').className = 'about active';
+        }, 10);
+      }
+
+      componentDidMount(){
+          this.props.popLoad();
+          this.checkHash();
+      }
 
     render(){
         return (
@@ -60,7 +100,7 @@ export default class App extends Component{
                             </div>
                         </div>
                     </div>
-                    <a className='downTrigger' onClick={this.props.closeAboutClick}><span>Close</span></a>
+                    <a className='downTrigger' onClick={this.closeAboutClick.bind(this)}><span>Close</span></a>
                     <div className='link'>
                         <p>
                         <a href='#' target='_blank'><span data-hover="instagram">instagram</span></a> {(this.state.width <= 450) ? <br/>: '/'} <a href='#' target='_blank'><span data-hover="twitter">twitter</span></a>

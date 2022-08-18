@@ -12,17 +12,52 @@ export default class Work extends Component{
         this.state = {
             currentFilt: 'all',
             filts: [],
-            width: window.innerWidth,
+            width: window.innerWidth
         };
 
-        this.baseUrl = 'http://192.168.1.107:8000/';
+        this.baseUrl = 'http://192.168.0.180:8000/';
         this.frameId = '';
     }
 
     componentWillReceiveProps(){
         this.setState((state, props) => ({
             width: props.widthL
-        }));
+        }), () => {
+            this.checkHash();
+        });
+    }
+
+    checkHash(){
+        let e = this.props.hash.match(/aboutMe|work/g);
+        if(e !== null){
+            e.forEach((v, id) => {
+                if(v == 'aboutMe'){
+                    this.closeWorkClick();
+                }
+                if(v == 'work'){
+                    this.workClick();
+                }
+            })
+        } else{
+            this.closeWorkClick();
+        }
+    }
+
+    closeWorkClick(){
+        if(/work/.test(window.location.hash)) window.location.hash = '';
+        document.querySelector('section.main').style = '';
+        setTimeout(() => {
+            document.querySelector('section.main').className = 'main';
+            document.querySelector('section.work').className = 'work';
+        }, 10);
+    }
+
+    workClick(){
+        document.querySelector('section.work').style = '';
+        setTimeout(() => {
+            document.querySelector('section.main').className = 'main up';
+            document.querySelector('section.work').className = 'work active';
+        }, 10);
     }
 
     componentDidMount(){
@@ -30,7 +65,10 @@ export default class Work extends Component{
         .then((response) => {
             response.json()
             .then((data) => {
-                this.setState((state, props) => ({filts: data.filts}));
+                this.setState((state, props) => ({filts: data.filts}), () => {
+                    this.props.popLoad();
+                    this.checkHash();
+                });
             });
         })
         .catch((rej) => {
@@ -66,9 +104,8 @@ export default class Work extends Component{
                                     {filts}
                                 </p>  
                             </div>
-                            
                         </div>
-                        <View currentFilt={this.state.currentFilt} workClick={this.props.workClick} aboutClick={this.props.aboutClick}/>
+                        <View currentFilt={this.state.currentFilt} hash={this.props.hash} popLoad={this.props.popLoad}/>
                         <div className='contact'>
                             <div>
                                 <h5>Do you want to contact me?</h5>
@@ -78,7 +115,7 @@ export default class Work extends Component{
                     </div>
                     <Specs widthL={this.state.width}/>
                 </div>
-                <a className='upTrigger' onClick={this.props.closeWorkClick}><span>Close</span></a>
+                <a className='upTrigger' onClick={this.closeWorkClick.bind(this)}><span>Close</span></a>
             </section>
         );
     }

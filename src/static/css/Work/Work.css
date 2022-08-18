@@ -5,12 +5,15 @@ section.work{
     left: 0;
     width: 100%;
     height: 100%;
+    min-height: 100vh;
     overflow-y: scroll;
     overflow-x: hidden;
     transition: all .7s ease-out;
+    z-index: 1;
 }
 .work.active{
     top: 0;
+    z-index: 2;
 }
 
 .work .content{
@@ -68,13 +71,22 @@ section.work{
     color: #979797;
 }
 
+.work .viewsPreloader{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;   
+    cursor: default;
+}
 .work .works{
     background-color: white;
     position: relative;
     margin-top: 1.5625rem;
     padding: 0 15px;
 }
-.work .works a{
+.work .works a,
+.work .viewsPreloader{
+    width: 100%;
+    aspect-ratio: 1.0;
     margin-top: 1.25rem;
     position: relative;
     transition: transform .3s ease-in-out;
@@ -98,6 +110,9 @@ section.work{
 }
 .work .works a:hover{
     transform: translate3d(0, -0.75rem, 0);
+}
+.work a.viewsPreloader:hover{
+    transform: translate3d(0, 0, 0);
 }
 .work .works a:hover .overlay{
     opacity: 1;
@@ -143,10 +158,6 @@ section.work{
     color: #979797;
 }
 
-.work .upTrigger{
-    margin-left: -22px;
-}
-
 @media (min-width: 576px){
     .work .wp{
         width: 540px;
@@ -174,7 +185,8 @@ section.work{
     .work .works{
         margin-top: 2.1875rem;
     }
-    .work .works a{
+    .work .works a,
+    .work .viewsPreloader{
         margin-top: 1.875rem;
         padding: 0 15px;
         width: 33%;
@@ -201,7 +213,8 @@ section.work{
     .work .works{
         margin-top: 3.125rem;
     }
-    .work .works a{
+    .work .works a,
+    .work .viewsPreloader{
         margin-top: 2.5rem;
     }
 
